@@ -1,0 +1,10 @@
+.nav {
+    &-anonymous {
+        padding: 6px 12px;
+        .nav {
+            &-logo {
+                max-width: 60px;
+            }
+        }
+    }
+}
