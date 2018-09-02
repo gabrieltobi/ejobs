@@ -1,0 +1,9 @@
+.stories {
+    padding: 32px 12px;
+    text-align: center;
+    &-box {
+        text-align: initial;
+        display: flex;
+        margin-bottom: 22px;
+    }
+}

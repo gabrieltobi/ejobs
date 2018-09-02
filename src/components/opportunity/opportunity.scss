@@ -1,0 +1,36 @@
+.opportunity {
+    border: 1px solid black;
+    margin: 10px;
+    width: 100%;
+    .image {
+        height: 180px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+    }
+    .departament {
+        background-color: #424242;
+        color: white;
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 14px 20px;
+        min-width: 50%;
+    }
+    .data,
+    .actions {
+        padding: 14px;
+    }
+    .data {
+        .info {
+            &:not(:last-child) {
+                margin-right: 16px;
+            }
+            svg {
+                margin-right: 4px;
+            }
+        }
+    }
+}

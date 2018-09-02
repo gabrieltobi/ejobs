@@ -1,0 +1,25 @@
+.highlights {
+    .highlight {
+        height: 70vh;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+        .banner {
+            background-color: rgba($color: #ffffff, $alpha: 0.6);
+            position: absolute;
+            width: 100%;
+            bottom: 15%;
+            padding: 46px 12px;
+        }
+        .box {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .text {
+            text-transform: uppercase;
+            margin: 0;
+            text-align: center;
+        }
+    }
+}

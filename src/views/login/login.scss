@@ -1,0 +1,27 @@
+.login {
+    text-align: center;
+    padding: 28px 12px;
+    &-logo {
+        max-width: 80px;
+        margin: 0 auto;
+        display: block;
+    }
+    &-box {
+        border: 1px solid #424242;
+        max-width: 400px;
+        margin: 16px auto;
+        padding: 14px 20px;
+    }
+    &-title {
+        margin: 20px 0 8px 0;
+    }
+    .fields {
+        margin-top: 32px;
+    }
+    .text-divider {
+        margin: 18px 0;
+    }
+    .btn {
+        margin: 16px 0;
+    }
+}

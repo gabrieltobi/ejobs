@@ -1,0 +1,14 @@
+.jobs {
+    padding: 0 24px;
+    .filters {
+        display: flex;
+        margin: 0 -10px;
+    }
+    .field {
+        flex-grow: 1;
+    }
+    &-box {
+        display: flex;
+        margin: 0 -10px;
+    }
+}
