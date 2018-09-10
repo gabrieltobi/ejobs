@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import logo from '../../images/logo.png'
 import firebase from 'firebase'
+import Input from '../../components/input/input'
 
 import './login.scss'
 
@@ -18,6 +19,12 @@ class Login extends Component {
     }
 
     render() {
+        const forgotPassword = (
+            <a href='/login' className='hint'>
+                <span>Esqueceu a senha?</span>
+            </a>
+        )
+
         return (
             <div className='login'>
                 <a href='/' className='login-logo'>
@@ -29,17 +36,13 @@ class Login extends Component {
                     <span className='login-hint'>Basta acessar com seu e-mail e senha cadastrados</span>
 
                     <div className='fields'>
-                        <div className='field'>
-                            <label htmlFor='email'>E-mail</label>
-                            <input id='email' type='email' />
-                        </div>
-                        <div className='field'>
-                            <label htmlFor='password'>Senha</label>
-                            <input id='password' type='password' />
-                            <a href='/login' className='hint'>
-                                <span>Esqueceu a senha?</span>
-                            </a>
-                        </div>
+                        <Input id='email' type='email' label='E-mail' />
+                        <Input
+                            id='password'
+                            type='password'
+                            label='Senha'
+                            hint={forgotPassword}
+                        />
                     </div>
 
                     <a href='/'>

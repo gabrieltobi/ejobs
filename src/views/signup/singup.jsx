@@ -1,16 +1,17 @@
 import React, { Component } from 'react'
 import logo from '../../images/logo.png'
+import Input from '../../components/input/input'
+import Select from '../../components/select/select'
 
 import './signup.scss'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faceboo, faMapMarker, faMap } from '@fortawesome/free-solid-svg-icons'
 import { faFacebookF, faLinkedinIn } from '@fortawesome/free-brands-svg-icons'
 
 class SignUp extends Component {
     render() {
         return (
-            <div className='login'>
+            <div className='signup'>
                 <a href='/' className='login-logo'>
                     <img src={logo} alt='Logo do Site' />
                 </a>
@@ -19,42 +20,34 @@ class SignUp extends Component {
                     <h2 className='login-title'>Criar sua conta</h2>
 
                     <div className='fields'>
-                        <div className='field'>
-                            <label htmlFor='language'>Idioma</label>
-                            <select id='language'>
+                        <Select
+                            id='language'
+                            label='Idioma'
+                            options={(
                                 <option value='pt'>Português</option>
-                            </select>
-                        </div>
-                        <div className='field'>
-                            <label htmlFor='name'>Nome</label>
-                            <input id='name' type='text' />
-                        </div>
-                        <div className='field'>
-                            <label htmlFor='nickname'>Sobrenome</label>
-                            <input id='nickname' type='text' />
-                        </div>
-                        <div className='field'>
-                            <label htmlFor='country'>País de origem *</label>
-                            <select id='country'>
+                            )}
+                        />
+
+                        <Input id='name' type='text' label='Nome' />
+
+                        <Input id='nickname' type='text' label='Sobrenome' />
+
+                        <Select
+                            id='country'
+                            label='País de origem *'
+                            options={(
                                 <option value='br'>Brasil</option>
-                            </select>
-                        </div>
-                        <div className='field'>
-                            <label htmlFor='document'>CPF *</label>
-                            <input id='document' type='text' />
-                        </div>
-                        <div className='field'>
-                            <label htmlFor='email'>E-mail *</label>
-                            <input id='email' type='email' />
-                        </div>
-                        <div className='field'>
-                            <label htmlFor='emailconfirm'>Confirme seu e-mail *</label>
-                            <input id='emailconfirm' type='email' />
-                        </div>
-                        <div className='field'>
-                            <label htmlFor='password'>Senha *</label>
-                            <input id='password' type='password' />
-                        </div>
+                            )}
+                        />
+
+                        <Input id='document' type='text' label='CPF *' />
+
+                        <Input id='email' type='email' label='E-mail *' />
+
+                        <Input id='emailconfirm' type='email' label='Confirme seu e-mail *' />
+
+                        <Input id='password' type='password' label='Senha *' />
+
                         <div className='field'>
                             <input type='checkbox' />
                             <span>
