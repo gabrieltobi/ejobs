@@ -37,19 +37,20 @@ module.exports = {
         publicPath: '/',
         filename: 'bundle.js'
     },
-    devServer: {
-        contentBase: './dist',
-        hot: true,
-        publicPath: '/',
-        historyApiFallback: true
-    },
     plugins: [
         new HtmlWebpackPlugin({
-            title: 'e-Jobs',
             minify: true,
             hash: true,
-            templateContent: '<div id="app"></div>'
-        }),
-        new webpack.HotModuleReplacementPlugin()
+            templateContent: `
+              <html>
+                <head>
+                  <title>e-Jobs</title>
+                </head>
+                <body>
+                  <div id="app"></div>
+                </body>
+              </html>
+            `
+        })
     ]
 }

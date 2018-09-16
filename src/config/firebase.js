@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+import firebase from 'firebase'
 
 const config = {
     apiKey: 'AIzaSyAZMWtR3djJUE-zFYdXaXVxJTWdgFnfldE',
@@ -7,7 +7,12 @@ const config = {
     projectId: 'pcd-jobs',
     storageBucket: 'pcd-jobs.appspot.com',
     messagingSenderId: '90455975716'
-};
+}
 
-export const firebaseImpl = firebase.initializeApp(config);
-export const firebaseDb = firebase.database();
+export const firebaseImpl = firebase.initializeApp(config)
+export const firebaseDb = firebase.firestore()
+firebaseDb.settings({ timestampsInSnapshots: true })
+
+export const COLLECTIONS = {
+    PEOPLE: 'people'
+}

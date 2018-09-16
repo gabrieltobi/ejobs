@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Nav from './nav/nav'
+import Nav from '../../components/nav/nav'
 import Highlights from './highlights/highlights'
 import Passionates from './passionates/passionates'
 import Opportunities from './opportunities/opportunities'

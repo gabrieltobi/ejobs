@@ -1,5 +1,13 @@
 .btn {
     text-transform: uppercase;
+    &.icon-left {
+        .svg-inline--fa {
+            margin-right: 12px;
+        }
+    }
+    &-link {
+        text-transform: none;
+    }
 }
 
 img {
@@ -23,6 +31,9 @@ img {
     input[type="checkbox"] {
         width: auto;
         margin-right: 8px;
+        +label {
+            display: inline-block;
+        }
     }
     .hint {
         text-align: right;

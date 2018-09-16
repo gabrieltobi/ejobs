@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import './companyJobs.scss'
 
 import Opportunity from '../../components/opportunity/opportunity'
-import Nav from '../home/nav/nav'
+import Nav from '../../components/nav/nav'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'

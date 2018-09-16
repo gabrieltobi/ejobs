@@ -1,0 +1,11 @@
+.nav-user {
+    .nav {
+        &-actions:last-child {
+            margin-left: auto;
+        }
+        &-user-img {
+            max-width: 40px;
+            border-radius: 50%;
+        }
+    }
+}

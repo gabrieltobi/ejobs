@@ -1,14 +1,13 @@
+import './login.scss'
+
 import React, { Component } from 'react'
 import logo from '../../images/logo.png'
 import firebase from 'firebase'
 import Input from '../../components/input/input'
-
-import './login.scss'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faceboo, faMapMarker, faMap } from '@fortawesome/free-solid-svg-icons'
 import { faFacebookF, faLinkedinIn } from '@fortawesome/free-brands-svg-icons'
-
+import { Form } from '../../utils/Form'
+import { ToastContainer, toast } from 'react-toastify'
 
 class Login extends Component {
     facebookLogin = () => {
@@ -18,9 +17,31 @@ class Login extends Component {
             })
     }
 
+    onSubmit = (event) => {
+        event.preventDefault()
+
+        const {
+            values: {
+                email,
+                password
+            },
+            history
+        } = this.props
+
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(firebaseUserData => history.push('/'))
+            .catch(error => {
+                toast.error(error.message)
+            })
+    }
+
     render() {
+        const {
+            fields
+        } = this.props
+
         const forgotPassword = (
-            <a href='/login' className='hint'>
+            <a href='#' className='hint'>
                 <span>Esqueceu a senha?</span>
             </a>
         )
@@ -31,22 +52,32 @@ class Login extends Component {
                     <img src={logo} alt='Logo do Site' />
                 </a>
 
-                <div className='login-box'>
+                <form className='login-box' onSubmit={this.onSubmit}>
                     <h2 className='login-title'>Entre com sua conta</h2>
                     <span className='login-hint'>Basta acessar com seu e-mail e senha cadastrados</span>
 
                     <div className='fields'>
-                        <Input id='email' type='email' label='E-mail' />
                         <Input
-                            id='password'
+                            type='email'
+                            label='E-mail'
+                            required
+                            {...fields.email}
+                        />
+
+                        <Input
                             type='password'
                             label='Senha'
                             hint={forgotPassword}
+                            required
+                            minLength='6'
+                            {...fields.password}
                         />
                     </div>
 
                     <a href='/'>
-                        <button type='button' className='btn btn-secondary btn-block'>Acessar Conta</button>
+                        <button type='submit' className='btn btn-secondary btn-block'>
+                            Acessar Conta
+                        </button>
                     </a>
 
                     <div className='text-divider'>ou</div>
@@ -55,21 +86,28 @@ class Login extends Component {
                         <FontAwesomeIcon icon={faFacebookF} />
                         Acessar Com Facebook
                     </button>
-                    <a href='/login'>
+                    <a href='/#'>
                         <button type='button' className='btn btn-primary btn-block'>
                             <FontAwesomeIcon icon={faLinkedinIn} />
                             Acessar Com LinkedIn
                         </button>
                     </a>
-                </div>
+                </form>
 
                 <h5>Não possui uma conta?</h5>
                 <a href='/signup'>
                     <h6>Criar conta</h6>
                 </a>
+
+                <ToastContainer />
             </div>
         )
     }
 }
 
-export default Login
+const fields = [
+    'email',
+    'password'
+]
+
+export default Form(Login, fields)

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import './jobs.scss'
 import Opportunity from '../../components/opportunity/opportunity'
-import Nav from '../home/nav/nav'
+import Nav from '../../components/nav/nav'
 
 class Jobs extends Component {
     state = {

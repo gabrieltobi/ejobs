@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import logo from '../../../images/logo.png'
-import './nav.scss'
+import './navAnonymus.scss'
 
-class Nav extends Component {
+class NavAnonymus extends Component {
     render() {
         return (
             <nav className='nav-anonymous'>
@@ -11,7 +11,7 @@ class Nav extends Component {
                 </a>
 
                 <div className='nav-actions'>
-                    <a href='/login'>
+                    <a href='/signup'>
                         <button type='button' className='btn btn-secondary'>Empresas</button>
                     </a>
                     <a href='/signup'>
@@ -23,4 +23,4 @@ class Nav extends Component {
     }
 }
 
-export default Nav
+export default NavAnonymus

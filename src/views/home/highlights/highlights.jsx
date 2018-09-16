@@ -10,7 +10,7 @@ class Highlights extends Component {
                     <div className='banner'>
                         <blockquote className='box' cite='Júlio Castro'>
                             <h2 className='text'>
-                                Consegui encontrar e empresa rapidamente após o meu cadastro
+                                Consegui encontrar a empresa rapidamente após o meu cadastro
                             </h2>
                             <span className='subtext'>
                                 Júlio Castro
