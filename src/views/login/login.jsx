@@ -82,12 +82,12 @@ class Login extends Component {
 
                     <div className='text-divider'>ou</div>
 
-                    <button type='button' className='btn btn-secondary btn-block' onClick={this.facebookLogin}>
+                    <button type='button' className='btn btn-secondary btn-block icon-left' onClick={this.facebookLogin}>
                         <FontAwesomeIcon icon={faFacebookF} />
                         Acessar Com Facebook
                     </button>
                     <a href='/#'>
-                        <button type='button' className='btn btn-primary btn-block'>
+                        <button type='button' className='btn btn-primary btn-block icon-left'>
                             <FontAwesomeIcon icon={faLinkedinIn} />
                             Acessar Com LinkedIn
                         </button>
