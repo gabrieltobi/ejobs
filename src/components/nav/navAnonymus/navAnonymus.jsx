@@ -11,11 +11,11 @@ class NavAnonymus extends Component {
                 </a>
 
                 <div className='nav-actions'>
-                    <a href='/signup'>
-                        <button type='button' className='btn btn-secondary'>Empresas</button>
-                    </a>
                     <a href='/login'>
-                        <button type='button' className='btn btn-primary'>Candidato</button>
+                        <button type='button' className='btn btn-secondary'>Acessar</button>
+                    </a>
+                    <a href='/signup'>
+                        <button type='button' className='btn btn-primary'>Cadastrar-se</button>
                     </a>
                 </div>
             </nav>

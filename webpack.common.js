@@ -41,10 +41,12 @@ module.exports = {
         new HtmlWebpackPlugin({
             minify: true,
             hash: true,
+            favicon: 'src/images/favicon.png',
             templateContent: `
               <html>
                 <head>
-                  <title>e-Jobs</title>
+                  <link rel="shortcut icon" href="/favicon.png?v=1">
+                  <title>PCD Jobs</title>
                 </head>
                 <body>
                   <div id="app"></div>
