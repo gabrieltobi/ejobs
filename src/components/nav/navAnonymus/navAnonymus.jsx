@@ -14,7 +14,7 @@ class NavAnonymus extends Component {
                     <a href='/signup'>
                         <button type='button' className='btn btn-secondary'>Empresas</button>
                     </a>
-                    <a href='/signup'>
+                    <a href='/login'>
                         <button type='button' className='btn btn-primary'>Candidato</button>
                     </a>
                 </div>

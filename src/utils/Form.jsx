@@ -12,7 +12,8 @@ export function Form(WrappedComponent, fields) {
         const fieldProps = {
           onChange: this.handleInputChange,
           id: field,
-          name: field
+          name: field,
+          invalidFeedback: null
         }
 
         Object.defineProperty(fieldProps, 'value', {
@@ -37,11 +38,24 @@ export function Form(WrappedComponent, fields) {
       })
     }
 
+    setInvalidFeedback = (field, invalidFeedback) => {
+      this.setState({
+        fields: {
+          ...this.state.fields,
+          [field]: {
+            ...this.state.fields[field],
+            invalidFeedback
+          }
+        }
+      })
+    }
+
     render() {
       return (
         <WrappedComponent
           fields={this.state.fields}
           values={this.state.values}
+          setInvalidFeedback={this.setInvalidFeedback}
           {...this.props}
         />
       )

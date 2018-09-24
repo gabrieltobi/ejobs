@@ -3,22 +3,31 @@ import './login.scss'
 import React, { Component } from 'react'
 import logo from '../../images/logo.png'
 import firebase from 'firebase'
-import Input from '../../components/input/input'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebookF, faLinkedinIn } from '@fortawesome/free-brands-svg-icons'
 import { Form } from '../../utils/Form'
 import { ToastContainer, toast } from 'react-toastify'
+import Input from '../../components/input/input'
 
 class Login extends Component {
+    state = {
+        formWasValidated: false
+    }
+
     facebookLogin = () => {
         firebase.auth().signInWithPopup(new firebase.auth.FacebookAuthProvider())
-            .then(data => {
-                console.log(data)
-            })
+            .then(firebaseUserData => history.push('/'))
+            .catch(error => toast.error(error.message))
     }
 
     onSubmit = (event) => {
         event.preventDefault()
+
+        const form = event.target
+
+        if (!form.checkValidity()) {
+            return this.setState({ formWasValidated: true })
+        }
 
         const {
             values: {
@@ -28,11 +37,10 @@ class Login extends Component {
             history
         } = this.props
 
-        firebase.auth().signInWithEmailAndPassword(email, password)
+        firebase.auth()
+            .signInWithEmailAndPassword(email, password)
             .then(firebaseUserData => history.push('/'))
-            .catch(error => {
-                toast.error(error.message)
-            })
+            .catch(error => toast.error(error.message))
     }
 
     render() {
@@ -40,26 +48,25 @@ class Login extends Component {
             fields
         } = this.props
 
-        const forgotPassword = (
-            <a href='#' className='hint'>
-                <span>Esqueceu a senha?</span>
-            </a>
-        )
+        const {
+            formWasValidated
+        } = this.state
 
         return (
-            <div className='login'>
-                <a href='/' className='login-logo'>
+            <div className='page-login text-center py-4 px-3'>
+                <a href='/' className='logo d-block mx-auto'>
                     <img src={logo} alt='Logo do Site' />
                 </a>
 
-                <form className='login-box' onSubmit={this.onSubmit}>
-                    <h2 className='login-title'>Entre com sua conta</h2>
-                    <span className='login-hint'>Basta acessar com seu e-mail e senha cadastrados</span>
+                <form className={`needs-validation border rounded m-3 mx-auto p-4${formWasValidated ? ' was-validated' : ''}`} onSubmit={this.onSubmit} noValidate>
+                    <h2>Entre com sua conta</h2>
+                    <span className='d-block mb-4'>Basta acessar com seu e-mail e senha cadastrados</span>
 
-                    <div className='fields'>
+                    <div className='text-left'>
                         <Input
                             type='email'
                             label='E-mail'
+                            title='Insira um e-mail válido'
                             required
                             {...fields.email}
                         />
@@ -67,31 +74,35 @@ class Login extends Component {
                         <Input
                             type='password'
                             label='Senha'
-                            hint={forgotPassword}
+                            title='A senha contém pelo menos 6 dígitos'
                             required
                             minLength='6'
+                            aria-describedby='password-help'
                             {...fields.password}
-                        />
+                        >
+                            <span id='password-help' className='form-text text-right'>
+                                <a href='#' role='button'>
+                                    Esqueceu a senha?
+                                </a>
+                            </span>
+                        </Input>
                     </div>
 
-                    <a href='/'>
-                        <button type='submit' className='btn btn-secondary btn-block'>
-                            Acessar Conta
-                        </button>
-                    </a>
+                    <button className='btn btn-primary btn-block' type='submit'>
+                        Acessar Conta
+                    </button>
 
-                    <div className='text-divider'>ou</div>
+                    <span className='d-block my-3'>ou</span>
 
-                    <button type='button' className='btn btn-secondary btn-block icon-left' onClick={this.facebookLogin}>
-                        <FontAwesomeIcon icon={faFacebookF} />
+                    <button type='button' className='btn btn-secondary btn-block mb-3' onClick={this.facebookLogin}>
+                        <FontAwesomeIcon icon={faFacebookF} className='mr-3' />
                         Acessar Com Facebook
                     </button>
-                    <a href='/#'>
-                        <button type='button' className='btn btn-primary btn-block icon-left'>
-                            <FontAwesomeIcon icon={faLinkedinIn} />
-                            Acessar Com LinkedIn
-                        </button>
-                    </a>
+
+                    <button type='button' className='btn btn-secondary btn-block'>
+                        <FontAwesomeIcon icon={faLinkedinIn} className='mr-3' />
+                        Acessar Com LinkedIn
+                    </button>
                 </form>
 
                 <h5>Não possui uma conta?</h5>

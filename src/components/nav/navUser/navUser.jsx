@@ -22,31 +22,22 @@ class NavUser extends Component {
                 </a>
 
                 <div className='nav-actions'>
-                    <a href='/jobs'>
-                        <div className='btn btn-link icon-left'>
-                            <FontAwesomeIcon icon={faBriefcase} />
-                            Minhas Vagas
-                        </div>
+                    <a href='/jobs' className='btn btn-link'>
+                        <FontAwesomeIcon icon={faBriefcase} className='mr-2' />
+                        Minhas Vagas
                     </a>
-                    <a href='/jobs'>
-                        <div className='btn btn-link icon-left'>
-                            <FontAwesomeIcon icon={faChartLine} />
-                            Oportunidades
-                        </div>
+                    <a href='/jobs' className='btn btn-link'>
+                        <FontAwesomeIcon icon={faChartLine} className='mr-2' />
+                        Oportunidades
                     </a>
                 </div>
 
                 <div className='nav-actions'>
-                    <a href='#'>
-                        <div className='btn btn-link'>
-                            <FontAwesomeIcon icon={faEnvelope} />
-                        </div>
-                    </a>
-
-                    <a href='#' onClick={this.logout}>
-                        <div className='btn btn-link'>
+                    <a className='btn btn-link' onClick={this.logout} role='button'>
+                        <a href='#' className='btn btn-link' role='button'>
+                            <FontAwesomeIcon icon={faEnvelope} className='mr-2' />
                             {person.name}
-                        </div>
+                        </a>
 
                         <img
                             className='nav-user-img'

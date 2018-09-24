@@ -1,25 +1,46 @@
+import './input.scss'
+
 import React, { Component } from 'react'
 import InputMask from 'react-input-mask'
-
-import './input.scss'
+import Checkbox from '../checkbox/checkbox'
 
 class Input extends Component {
     render() {
         const {
             id,
             label,
-            hint,
+            type,
+            className,
+            title,
+            invalidFeedback,
+            children,
             ...inputProps
         } = this.props
 
+        if (type === 'checkbox') {
+            return <Checkbox {...this.props} />
+        }
+
         return (
-            <div className='field'>
+            <div className='form-group'>
                 <label htmlFor={id}>{label}</label>
-                <InputMask id={id} {...inputProps} />
-                {hint}
+                <InputMask
+                    id={id}
+                    type={type || 'text'}
+                    className={`form-control${className ? ` ${className}` : ''}`}
+                    title={title}
+                    {...inputProps}
+                />
+                {
+                    (invalidFeedback || title) &&
+                    <div className='invalid-feedback'>
+                        {invalidFeedback || title}
+                    </div>
+                }
+                {children}
             </div>
         )
     }
 }
 
-export default Input
+export default Input;

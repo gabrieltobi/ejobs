@@ -3,7 +3,6 @@ import './signup.scss'
 import React, { Component } from 'react'
 import logo from '../../images/logo.png'
 import Input from '../../components/input/input'
-import Select from '../../components/select/select'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebookF, faLinkedinIn } from '@fortawesome/free-brands-svg-icons'
 import { Form } from '../../utils/Form'
@@ -14,48 +13,70 @@ import { ToastContainer, toast } from 'react-toastify'
 import { firebaseDb, COLLECTIONS } from '../../config/firebase'
 
 class SignUp extends Component {
+    state = {
+        formWasValidated: false
+    }
+
     cpfValidation = (evt) => {
         const {
-            fields
+            fields,
+            setInvalidFeedback
         } = this.props
 
         const input = evt.target
         const value = input.value
-
-        input.setCustomValidity('')
+        const field = input.name
+        let validationText = ''
 
         //Só checa após já ter passado a validação nativa do browser
         if (!input.validity.patternMismatch) {
             if (!isValidCpf(getNumbersOnly(value))) {
-                input.setCustomValidity('Informe um CPF válido')
+                validationText = 'Informe um CPF válido'
             }
         }
 
-        fields.document.onChange(evt)
+        input.setCustomValidity(validationText)
+        setInvalidFeedback(field, validationText)
+
+        fields[field].onChange(evt)
     }
 
     emailConfirmValidation = (evt) => {
         const {
-            fields
+            fields,
+            setInvalidFeedback
         } = this.props
 
         const input = evt.target
-        const value = input.value
+        const field = input.name
+        const form = input.form
 
-        input.setCustomValidity('')
+        const emailInput = form['email']
+        const emailConfirmInput = form['emailConfirm']
+        const emailConfirmValidity = emailConfirmInput.validity
+        let validationText = ''
 
         //Só checa após já ter passado a validação nativa do browser
-        if (!input.validity.email) {
-            if (fields.email.value !== value) {
-                input.setCustomValidity('Os e-mails estão diferentes')
+        if (!emailConfirmValidity.valueMissing && !emailConfirmValidity.typeMismatch) {
+            if (emailInput.value !== emailConfirmInput.value) {
+                validationText = 'Informe o mesmo e-mail informado anteriormente'
             }
         }
 
-        fields.emailConfirm.onChange(evt)
+        emailConfirmInput.setCustomValidity(validationText)
+        setInvalidFeedback('emailConfirm', validationText)
+
+        fields[field].onChange(evt)
     }
 
     onSubmit = (event) => {
         event.preventDefault()
+
+        const form = event.target
+
+        if (!form.checkValidity()) {
+            return this.setState({ formWasValidated: true })
+        }
 
         const {
             values: {
@@ -67,7 +88,8 @@ class SignUp extends Component {
             history
         } = this.props
 
-        firebase.auth().createUserWithEmailAndPassword(userData.email, password)
+        firebase.auth()
+            .createUserWithEmailAndPassword(userData.email, password)
             .then(firebaseUserData => {
                 const uid = firebaseUserData.user.uid
                 const now = Date.now()
@@ -81,9 +103,7 @@ class SignUp extends Component {
                     .set(userData, { merge: true })
                     .then(() => history.push('/'))
             })
-            .catch(error => {
-                toast.error(error.message)
-            })
+            .catch(error => toast.error(error.message))
     }
 
     render() {
@@ -91,55 +111,41 @@ class SignUp extends Component {
             fields
         } = this.props
 
+        const {
+            formWasValidated
+        } = this.state
+
         return (
-            <div className='signup'>
-                <a href='/' className='login-logo'>
+            <div className='page-signup text-center py-4 px-3'>
+                <a href='/' className='logo d-block mx-auto'>
                     <img src={logo} alt='Logo do Site' />
                 </a>
 
-                <form className='login-box' onSubmit={this.onSubmit}>
-                    <h2 className='login-title'>Criar sua conta</h2>
+                <form className={`needs-validation border rounded m-3 mx-auto p-4${formWasValidated ? ' was-validated' : ''}`} onSubmit={this.onSubmit} noValidate>
+                    <h2 className='mb-4'>Criar sua conta</h2>
 
-                    <div className='fields'>
-                        {/* <Select
-                            id='language'
-                            label='Idioma'
-                            options={(
-                                <option value='pt'>Português</option>
-                            )}
-                        /> */}
-
+                    <div className='text-left mb-4'>
                         <Input
-                            type='text'
                             label='Nome'
+                            title='Informe seu nome'
                             required
-                            title={'Informe seu nome'}
                             {...fields.name}
                         />
 
                         <Input
-                            type='text'
                             label='Sobrenome'
+                            title='Informe seu sobrenome'
                             required
-                            title={'Informe seu sobrenome'}
                             {...fields.surname}
                         />
-
-                        {/* <Select
-                            id='country'
-                            label='País de origem'
-                            options={(
-                                <option value='br'>Brasil</option>
-                            )}
-                        /> */}
 
                         <Input
                             type='tel'
                             label='CPF'
+                            title='Informe um CPF'
                             required
                             pattern='^\d{3}.\d{3}.\d{3}-\d{2}$'
                             mask='999.999.999-99'
-                            title={'Informe seu CPF'}
                             {...fields.document}
                             onChange={this.cpfValidation}
                         />
@@ -147,16 +153,17 @@ class SignUp extends Component {
                         <Input
                             type='email'
                             label='E-mail'
+                            title='Informe um e-mail válido, será o seu e-mail de acesso'
                             required
                             {...fields.email}
-                            title={'Informe um e-mail, será o seu e-mail de acesso'}
+                            onChange={this.emailConfirmValidation}
                         />
 
                         <Input
                             type='email'
                             label='Confirme seu e-mail'
+                            title='Informe um e-mail válido e igual ao informado anteriormente'
                             required
-                            title={'Informe o mesmo e-mail informado anteriormente'}
                             {...fields.emailConfirm}
                             onChange={this.emailConfirmValidation}
                         />
@@ -164,44 +171,41 @@ class SignUp extends Component {
                         <Input
                             type='password'
                             label='Senha'
+                            title='Crie uma senha para acesso com no mínimo 6 dígitos'
                             required
                             minLength='6'
-                            title={'Crie uma senha para acesso'}
                             {...fields.password}
                         />
 
-                        <div className='field'>
-                            <input
-                                type='checkbox'
-                                required
-                                title={'Fique de acordo com os termos de uso'}
-                                {...fields.tosAcceptance}
-                            />
-                            <label htmlFor='tosAcceptance'>
-                                Concordo com os&nbsp;
-                                <a href='#'>termos de uso</a>
-                            </label>
-                        </div>
+                        <Input
+                            type='checkbox'
+                            label={(
+                                <React.Fragment>
+                                    Concordo com os&nbsp;
+                                    <a href='#'>termos de uso</a>
+                                </React.Fragment>
+                            )}
+                            title='Esteja de acordo com os termos de uso'
+                            required
+                            {...fields.tosAcceptance}
+                        />
                     </div>
 
-                    <button type='submit' className='btn btn-secondary btn-block'>
+                    <button className='btn btn-primary btn-block' type='submit'>
                         Criar Conta
                     </button>
 
-                    <div className='text-divider'>ou</div>
+                    <span className='d-block my-3'>ou</span>
 
-                    <a href='/login'>
-                        <button type='button' className='btn btn-secondary btn-block icon-left'>
-                            <FontAwesomeIcon icon={faFacebookF} />
-                            Acessar Com Facebook
-                        </button>
-                    </a>
-                    <a href='/login'>
-                        <button type='button' className='btn btn-primary btn-block icon-left'>
-                            <FontAwesomeIcon icon={faLinkedinIn} />
-                            Acessar Com LinkedIn
-                        </button>
-                    </a>
+                    <button type='button' className='btn btn-secondary btn-block mb-3' onClick={this.facebookLogin}>
+                        <FontAwesomeIcon icon={faFacebookF} className='mr-3' />
+                        Acessar Com Facebook
+                    </button>
+
+                    <button type='button' className='btn btn-secondary btn-block'>
+                        <FontAwesomeIcon icon={faLinkedinIn} className='mr-3' />
+                        Acessar Com LinkedIn
+                    </button>
                 </form>
 
                 <h5>Já possui uma conta?</h5>
