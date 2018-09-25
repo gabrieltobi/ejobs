@@ -1,24 +1,16 @@
 import React, { Component } from 'react'
-import logo from '../../../images/logo.png'
-import './navAnonymus.scss'
 
 class NavAnonymus extends Component {
     render() {
         return (
-            <nav className='nav-anonymous'>
-                <a className='nav-logo' href='/'>
-                    <img src={logo} alt='Logo do Site' />
+            <div className='actions text-right'>
+                <a href='/login' className='btn btn-secondary mr-2'>
+                    Acessar
                 </a>
-
-                <div className='nav-actions'>
-                    <a href='/login'>
-                        <button type='button' className='btn btn-secondary'>Acessar</button>
-                    </a>
-                    <a href='/signup'>
-                        <button type='button' className='btn btn-primary'>Cadastrar-se</button>
-                    </a>
-                </div>
-            </nav>
+                <a href='/signup' className='btn btn-primary'>
+                    Criar Cadastro
+                </a>
+            </div>
         )
     }
 }

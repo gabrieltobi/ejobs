@@ -9,7 +9,7 @@ import { Form } from '../../utils/Form'
 import { getNumbersOnly } from '../../utils/Toolbox'
 import { isValidCpf } from '../../utils/Validations'
 import firebase from 'firebase'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import { firebaseDb, COLLECTIONS } from '../../config/firebase'
 
 class SignUp extends Component {
@@ -212,8 +212,6 @@ class SignUp extends Component {
                 <a href='/login'>
                     <h6>Acessar</h6>
                 </a>
-
-                <ToastContainer />
             </div>
         )
     }

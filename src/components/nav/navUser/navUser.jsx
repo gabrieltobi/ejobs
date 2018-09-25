@@ -1,7 +1,6 @@
 import './navUser.scss'
 
 import React, { Component } from 'react'
-import logo from '../../../images/logo.png'
 import userNoPhoto from '../../../images/user-no-photo.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBriefcase, faChartLine, faEnvelope } from '@fortawesome/free-solid-svg-icons'
@@ -16,12 +15,8 @@ class NavUser extends Component {
         const person = this.props.person || {}
 
         return (
-            <nav className='nav-user'>
-                <a className='nav-logo' href='/'>
-                    <img src={logo} alt='Logo do Site' />
-                </a>
-
-                <div className='nav-actions'>
+            <div className='actions d-flex justify-content-between align-items-center'>
+                <div className='group'>
                     <a href='/jobs' className='btn btn-link'>
                         <FontAwesomeIcon icon={faBriefcase} className='mr-2' />
                         Minhas Vagas
@@ -32,21 +27,19 @@ class NavUser extends Component {
                     </a>
                 </div>
 
-                <div className='nav-actions'>
-                    <a className='btn btn-link' onClick={this.logout} role='button'>
-                        <a href='#' className='btn btn-link' role='button'>
-                            <FontAwesomeIcon icon={faEnvelope} className='mr-2' />
-                            {person.name}
-                        </a>
-
-                        <img
-                            className='nav-user-img'
-                            src={person.photo || userNoPhoto}
-                            alt='Foto do Usuário'
-                        />
+                <div className='group'>
+                    <a href='#' className='btn btn-link' onClick={this.logout} role='button'>
+                        <FontAwesomeIcon icon={faEnvelope} className='mr-2' />
+                        {person.name}
                     </a>
+
+                    <img
+                        className='user-img rounded-circle'
+                        src={person.photo || userNoPhoto}
+                        alt='Foto do Usuário'
+                    />
                 </div>
-            </nav>
+            </div >
         )
     }
 }

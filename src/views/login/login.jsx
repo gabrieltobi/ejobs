@@ -6,7 +6,7 @@ import firebase from 'firebase'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebookF, faLinkedinIn } from '@fortawesome/free-brands-svg-icons'
 import { Form } from '../../utils/Form'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import Input from '../../components/input/input'
 
 class Login extends Component {
@@ -109,8 +109,6 @@ class Login extends Component {
                 <a href='/signup'>
                     <h6>Criar conta</h6>
                 </a>
-
-                <ToastContainer />
             </div>
         )
     }

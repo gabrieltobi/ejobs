@@ -5,7 +5,7 @@ import firebase from 'firebase'
 import NavAnonymus from './navAnonymus/navAnonymus'
 import NavUser from './navUser/navUser'
 import { firebaseDb, COLLECTIONS } from '../../config/firebase'
-import NavLoading from './navLoading/navLoading'
+import logo from '../../images/logo.png'
 
 class Nav extends Component {
     state = {
@@ -36,20 +36,26 @@ class Nav extends Component {
 
     render() {
         const {
-            loading,
             currentUser,
-            person
+            person,
+            loading
         } = this.state
 
-        if (loading) {
-            return <NavLoading />
-        }
+        let nav = <NavAnonymus />
 
         if (currentUser) {
-            return <NavUser person={person} />
+            nav = <NavUser person={person} />
         }
 
-        return <NavAnonymus />
+        return (
+            <nav className='pcd-nav border-bottom p-2 shadow-sm d-flex align-items-center'>
+                <a className='logo' href='/'>
+                    <img src={logo} alt='Logo do Site' />
+                </a>
+
+                {!loading && nav}
+            </nav>
+        )
     }
 }
 

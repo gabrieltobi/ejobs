@@ -1,15 +1,9 @@
-.nav {
-    &-anonymous,
-    &-user,
-    &-loading {
-        padding: 6px 12px;
-        display: flex;
-        align-items: center;
-        border-bottom: 1px solid #424242;
-        .nav {
-            &-logo {
-                width: 150px;
-            }
-        }
+.pcd-nav {
+    .logo {
+        max-width: 150px;
+        width: 100%;
+    }
+    .actions {
+        width: 100%;
     }
 }
