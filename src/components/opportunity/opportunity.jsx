@@ -19,6 +19,28 @@ class Opportunity extends Component {
         } = this.props
 
         return (
+            <div className='opportunity card border'>
+                <img className='card-img-top' src={image} />
+                <div className='card-body'>
+                    <div className="card-text">{role}</div>
+                    <p className='card-text'>
+                        <span className='mr-3'>
+                            <FontAwesomeIcon icon={faTag} className='mr-1' />
+                            {type}
+                        </span>
+                        <span>
+                            <FontAwesomeIcon icon={faMapMarker} className='mr-1' />
+                            {location}
+                        </span>
+                    </p>
+                    <a href={isPerson ? '/jobs' : '/companyJobs'} className='btn btn-primary'>
+                        {isPerson ? 'Contatar' : 'Candidatar'}
+                    </a>
+                </div>
+            </div>
+        )
+
+        return (
             <div className='opportunity'>
                 <div className='image' style={{ backgroundImage: `url(${image})` }}>
                     <h5 className='departament'>{department}</h5>

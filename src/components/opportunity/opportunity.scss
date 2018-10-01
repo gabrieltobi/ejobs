@@ -1,5 +1,10 @@
 .opportunity {
-    border: 1px solid black;
+    .card {
+        &-img-top {
+            height: 180px;
+        }
+    }
+    /* border: 1px solid black;
     margin: 10px;
     width: 100%;
     .image {
@@ -32,5 +37,5 @@
                 margin-right: 4px;
             }
         }
-    }
+    } */
 }
