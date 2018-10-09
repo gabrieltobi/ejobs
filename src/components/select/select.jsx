@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-
 //import './select.scss'
+
+import React, { Component } from 'react'
 
 class Select extends Component {
     render() {
@@ -8,16 +8,31 @@ class Select extends Component {
             id,
             label,
             options,
-            hint
+            className,
+            title,
+            invalidFeedback,
+            children,
+            ...selectProps
         } = this.props
 
         return (
-            <div className='field'>
+            <div className='form-group w-100'>
                 <label htmlFor={id}>{label}</label>
-                <select id={id}>
+                <select
+                    id={id}
+                    className={`form-control${className ? ` ${className}` : ''}`}
+                    title={title}
+                    {...selectProps}
+                >
                     {options}
                 </select>
-                {hint}
+                {
+                    (invalidFeedback || title) &&
+                    <div className='invalid-feedback'>
+                        {invalidFeedback || title}
+                    </div>
+                }
+                {children}
             </div>
         )
     }

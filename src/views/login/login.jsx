@@ -8,16 +8,29 @@ import { faFacebookF, faLinkedinIn } from '@fortawesome/free-brands-svg-icons'
 import { Form } from '../../utils/Form'
 import { toast } from 'react-toastify'
 import Input from '../../components/input/input'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 class Login extends Component {
     state = {
         formWasValidated: false
     }
 
+    recaptchaRef = React.createRef()
+
     facebookLogin = () => {
         firebase.auth().signInWithPopup(new firebase.auth.FacebookAuthProvider())
             .then(firebaseUserData => history.push('/'))
             .catch(error => toast.error(error.message))
+    }
+
+    checkRecaptcha = (recaptchaToken) => {
+        recaptchaToken = recaptchaToken || this.recaptchaRef.current.getValue()
+
+        if (recaptchaToken) {
+            this.signIn()
+        } else {
+            this.recaptchaRef.current.execute()
+        }
     }
 
     onSubmit = (event) => {
@@ -29,6 +42,10 @@ class Login extends Component {
             return this.setState({ formWasValidated: true })
         }
 
+        this.checkRecaptcha()
+    }
+
+    signIn = () => {
         const {
             values: {
                 email,
@@ -87,6 +104,13 @@ class Login extends Component {
                             </span>
                         </Input>
                     </div>
+
+                    <ReCAPTCHA
+                        ref={this.recaptchaRef}
+                        sitekey='6LefGHQUAAAAACneffmHDIyGvHO7-Q8LDFtKP_wj'
+                        onChange={this.checkRecaptcha}
+                        size='invisible'
+                    />
 
                     <button className='btn btn-primary btn-block' type='submit'>
                         Acessar Conta

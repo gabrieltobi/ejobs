@@ -1,12 +1,15 @@
-import React, { Component } from 'react'
-
 import './companyJobs.scss'
+
+import React, { Component } from 'react'
 
 import Opportunity from '../../components/opportunity/opportunity'
 import Nav from '../../components/nav/nav'
+import Select from '../../components/select/select'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { Form } from '../../utils/Form'
+import Input from '../../components/input/input'
 
 class CompanyJobs extends Component {
     state = {
@@ -48,38 +51,50 @@ class CompanyJobs extends Component {
         return (
             <React.Fragment>
                 <Nav />
-                <div className='jobs'>
-                    <div className='view-header'>
-                        <h3 className='title'>Vagas</h3>
-                        <h6 className='subtitle'>Oportunidades disponibilizadas</h6>
+                <div className='page-jobs p-3 pt-4'>
+                    <div className='mb-4'>
+                        <h3>Vagas</h3>
+                        <h6>Oportunidades disponibilizadas</h6>
                     </div>
 
                     <div className='filters'>
-                        <div className='field field-icon'>
-                            <FontAwesomeIcon icon={faSearch} />
-                            <input type='search' placeholder='Procurar' />
+                        <Input
+                            type='search'
+                            placeholder='Procurar'
+                            title='Digite um texto para busca'
+                            icon={faSearch}
+                            required
+                            {...fields.searchText}
+                        />
+
+                        <div className='d-flex'>
+                            <Select
+                                title='Escolha um tipo de vaga'
+                                {...fields.jobType}
+                                options={(
+                                    <option value=''>Tipo de vaga</option>
+                                )}
+                            />
+
+                            <Select
+                                title='Escolha um local de trabalho'
+                                {...fields.jobLocation}
+                                options={(
+                                    <option value=''>Local de trabalho</option>
+                                )}
+                            />
+
+                            <Select
+                                title='Escolha uma área'
+                                {...fields.jobArea}
+                                options={(
+                                    <option value=''>Área</option>
+                                )}
+                            />
                         </div>
                     </div>
 
-                    <div className='filters'>
-                        <div className='field'>
-                            <select>
-                                <option value=''>Tipo de vaga</option>
-                            </select>
-                        </div>
-                        <div className='field'>
-                            <select>
-                                <option value=''>Local de trabalho</option>
-                            </select>
-                        </div>
-                        <div className='field'>
-                            <select>
-                                <option value=''>Área</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div className='jobs-box'>
+                    <div className='d-flex flex-wrap'>
                         {this.state.opportunities.map(opportunity => {
                             return <Opportunity key={opportunity.id} {...opportunity} />
                         })}
@@ -90,4 +105,11 @@ class CompanyJobs extends Component {
     }
 }
 
-export default CompanyJobs
+const fields = [
+    'searchText',
+    'jobType',
+    'jobLocation',
+    'jobArea'
+]
+
+export default Form(CompanyJobs, fields)

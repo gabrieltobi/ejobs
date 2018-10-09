@@ -15,6 +15,7 @@
     "firebase": "^5.4.2",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
+    "react-google-recaptcha": "^1.0.4",
     "react-input-mask": "^2.0.4",
     "react-router-dom": "^4.3.1",
     "react-toastify": "^4.3.1"

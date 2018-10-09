@@ -4,6 +4,8 @@ import React, { Component } from 'react'
 import InputMask from 'react-input-mask'
 import Checkbox from '../checkbox/checkbox'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 class Input extends Component {
     render() {
         const {
@@ -14,6 +16,7 @@ class Input extends Component {
             title,
             invalidFeedback,
             children,
+            icon,
             ...inputProps
         } = this.props
 
@@ -24,13 +27,23 @@ class Input extends Component {
         return (
             <div className='form-group'>
                 <label htmlFor={id}>{label}</label>
-                <InputMask
-                    id={id}
-                    type={type || 'text'}
-                    className={`form-control${className ? ` ${className}` : ''}`}
-                    title={title}
-                    {...inputProps}
-                />
+                <div className='input-group'>
+                    {
+                        icon &&
+                        <div className="input-group-prepend">
+                            <span className='input-group-text'>
+                                <FontAwesomeIcon icon={icon} />
+                            </span>
+                        </div>
+                    }
+                    <InputMask
+                        id={id}
+                        type={type || 'text'}
+                        className={`form-control${className ? ` ${className}` : ''}`}
+                        title={title}
+                        {...inputProps}
+                    />
+                </div>
                 {
                     (invalidFeedback || title) &&
                     <div className='invalid-feedback'>
@@ -43,4 +56,4 @@ class Input extends Component {
     }
 }
 
-export default Input;
+export default Input

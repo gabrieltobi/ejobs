@@ -46,7 +46,7 @@ class Opportunities extends Component {
 
     render() {
         return (
-            <div className='opportunities'>
+            <div className='p-3 d-flex flex-wrap'>
                 {this.state.opportunities.map(opportunity => {
                     return <Opportunity key={opportunity.id} {...opportunity} />
                 })}

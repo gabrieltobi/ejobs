@@ -11,6 +11,7 @@ import { isValidCpf } from '../../utils/Validations'
 import firebase from 'firebase'
 import { toast } from 'react-toastify'
 import { firebaseDb, COLLECTIONS } from '../../config/firebase'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 class SignUp extends Component {
     state = {
@@ -124,7 +125,7 @@ class SignUp extends Component {
                 <form className={`needs-validation border rounded m-3 mx-auto p-4${formWasValidated ? ' was-validated' : ''}`} onSubmit={this.onSubmit} noValidate>
                     <h2 className='mb-4'>Criar sua conta</h2>
 
-                    <div className='text-left mb-4'>
+                    <div className='text-left mb-3'>
                         <Input
                             label='Nome'
                             title='Informe seu nome'
@@ -139,7 +140,7 @@ class SignUp extends Component {
                             {...fields.surname}
                         />
 
-                        <Input
+                        {/* <Input
                             type='tel'
                             label='CPF'
                             title='Informe um CPF'
@@ -148,7 +149,7 @@ class SignUp extends Component {
                             mask='999.999.999-99'
                             {...fields.document}
                             onChange={this.cpfValidation}
-                        />
+                        /> */}
 
                         <Input
                             type='email'
@@ -159,14 +160,14 @@ class SignUp extends Component {
                             onChange={this.emailConfirmValidation}
                         />
 
-                        <Input
+                        {/* <Input
                             type='email'
                             label='Confirme seu e-mail'
                             title='Informe um e-mail válido e igual ao informado anteriormente'
                             required
                             {...fields.emailConfirm}
                             onChange={this.emailConfirmValidation}
-                        />
+                        /> */}
 
                         <Input
                             type='password'
@@ -190,6 +191,12 @@ class SignUp extends Component {
                             {...fields.tosAcceptance}
                         />
                     </div>
+
+                    <ReCAPTCHA
+                        sitekey='6LefGHQUAAAAACneffmHDIyGvHO7-Q8LDFtKP_wj'
+                        onChange={console.log}
+                        className='mb-4 recaptcha'
+                    />
 
                     <button className='btn btn-primary btn-block' type='submit'>
                         Criar Conta

@@ -34,8 +34,8 @@ class Stories extends Component {
 
     render() {
         return (
-            <div className='stories'>
-                <div className='stories-box'>
+            <div className='stories p-3 text-center'>
+                <div className='stories-box d-flex mb-3 text-left'>
                     {this.state.stories.map(stories => {
                         return <Story key={stories.id} {...stories} />
                     })}

@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
 import './story.scss'
+
+import React, { Component } from 'react'
 
 class Story extends Component {
     render() {
@@ -12,14 +13,14 @@ class Story extends Component {
         } = this.props
 
         return (
-            <div className='story'>
-                <div className='logo'>
+            <div className='story m-2'>
+                <div className='logo mb-3'>
                     <img src={logo} alt='Logo da Empresa XDB' />
                 </div>
-                <h2 className='title'>{title}</h2>
+                <h2>{title}</h2>
                 <p className='description'>{description}</p>
-                <h6 className='author'>{author}</h6>
-                <span className='role'>{role}</span>
+                <h6 className='mb-1'>{author}</h6>
+                <span><small>{role}</small></span>
             </div>
         )
     }

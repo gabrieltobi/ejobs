@@ -1,7 +1,7 @@
+import './opportunity.scss'
+
 import React, { Component } from 'react'
 import { format } from 'date-fns'
-
-import './opportunity.scss'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTag, faMapMarker, faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
@@ -19,11 +19,13 @@ class Opportunity extends Component {
         } = this.props
 
         return (
-            <div className='opportunity card border'>
-                <img className='card-img-top' src={image} />
+            <div className='opportunity card border mr-3 mb-3'>
+                <div className='card-img' style={{ backgroundImage: `url(${image})` }}>
+                    <h5 className='bg-dark text-white card-dpt py-2 px-2'>{department}</h5>
+                </div>
                 <div className='card-body'>
-                    <div className="card-text">{role}</div>
-                    <p className='card-text'>
+                    <div className='card-text'>{role}</div>
+                    <div className='card-text'>
                         <span className='mr-3'>
                             <FontAwesomeIcon icon={faTag} className='mr-1' />
                             {type}
@@ -32,44 +34,16 @@ class Opportunity extends Component {
                             <FontAwesomeIcon icon={faMapMarker} className='mr-1' />
                             {location}
                         </span>
-                    </p>
-                    <a href={isPerson ? '/jobs' : '/companyJobs'} className='btn btn-primary'>
-                        {isPerson ? 'Contatar' : 'Candidatar'}
-                    </a>
-                </div>
-            </div>
-        )
-
-        return (
-            <div className='opportunity'>
-                <div className='image' style={{ backgroundImage: `url(${image})` }}>
-                    <h5 className='departament'>{department}</h5>
-                </div>
-                <div className='data'>
-                    <div>{role}</div>
-                    <div>
-                        <span className='info'>
-                            <FontAwesomeIcon icon={faTag} />
-                            {type}
-                        </span>
-                        <span className='info'>
-                            <FontAwesomeIcon icon={faMapMarker} />
-                            {location}
-                        </span>
                     </div>
                     {
                         date &&
-                        <div className='info'>
-                            <FontAwesomeIcon icon={faCalendarAlt} />
+                        <div className='card-text'>
+                            <FontAwesomeIcon icon={faCalendarAlt} className='mr-1' />
                             {format(date, 'DD/MM/YYYY')}
                         </div>
                     }
-                </div>
-                <div className='actions'>
-                    <a href={isPerson ? '/jobs' : '/companyJobs'}>
-                        <button type='button' className='btn btn-primary'>
-                            {isPerson ? 'Contatar' : 'Candidatar'}
-                        </button>
+                    <a href={isPerson ? '/jobs' : '/companyJobs'} className='btn btn-primary mt-3'>
+                        {isPerson ? 'Contatar' : 'Candidatar'}
                     </a>
                 </div>
             </div>
