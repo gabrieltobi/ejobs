@@ -1,13 +1,19 @@
 .page-signup {
-    form {
+    .usable-area {
         max-width: 400px;
     }
     .logo {
         max-width: 150px;
     }
     .recaptcha {
-        > div > div {
+        >div>div {
             margin: 0 auto;
+        }
+    }
+    #empresa {
+        display: none;
+        &:target {
+            display: block;
         }
     }
 }
