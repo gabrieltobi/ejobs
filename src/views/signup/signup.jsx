@@ -18,6 +18,8 @@ class SignUp extends Component {
         formWasValidated: false
     }
 
+    recaptchaRef = React.createRef()
+
     cpfValidation = (evt) => {
         const {
             fields,
@@ -70,6 +72,16 @@ class SignUp extends Component {
         fields[field].onChange(evt)
     }
 
+    checkRecaptcha = (recaptchaToken) => {
+        recaptchaToken = recaptchaToken || this.recaptchaRef.current.getValue()
+
+        if (recaptchaToken) {
+            this.signUp()
+        } else {
+            this.recaptchaRef.current.execute()
+        }
+    }
+
     onSubmit = (event) => {
         event.preventDefault()
 
@@ -79,6 +91,10 @@ class SignUp extends Component {
             return this.setState({ formWasValidated: true })
         }
 
+        this.checkRecaptcha()
+    }
+
+    signUp = () => {
         const {
             values: {
                 emailConfirm,
@@ -193,9 +209,10 @@ class SignUp extends Component {
                     </div>
 
                     <ReCAPTCHA
+                        ref={this.recaptchaRef}
                         sitekey='6LefGHQUAAAAACneffmHDIyGvHO7-Q8LDFtKP_wj'
-                        onChange={console.log}
-                        className='mb-4 recaptcha'
+                        onChange={this.checkRecaptcha}
+                        size='invisible'
                     />
 
                     <button className='btn btn-primary btn-block' type='submit'>
