@@ -89,18 +89,18 @@ class SignUp extends Component {
         const form = input.form
 
         const emailInput = form['email']
-        const emailConfirmInput = form['emailConfirm']
-        const emailConfirmValidity = emailConfirmInput.validity
+        //const emailConfirmInput = form['emailConfirm']
+        //const emailConfirmValidity = emailConfirmInput.validity
         let validationText = ''
 
         //Só checa após já ter passado a validação nativa do browser
-        if (!emailConfirmValidity.valueMissing && !emailConfirmValidity.typeMismatch) {
-            if (emailInput.value !== emailConfirmInput.value) {
-                validationText = 'Informe o mesmo e-mail informado anteriormente'
-            }
-        }
+        //if (!emailConfirmValidity.valueMissing && !emailConfirmValidity.typeMismatch) {
+            //if (emailInput.value !== emailConfirmInput.value) {
+            //    validationText = 'Informe o mesmo e-mail informado anteriormente'
+            //}
+        //}
 
-        emailConfirmInput.setCustomValidity(validationText)
+        //emailConfirmInput.setCustomValidity(validationText)
         setInvalidFeedback('emailConfirm', validationText)
 
         fields[field].onChange(evt)

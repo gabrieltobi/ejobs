@@ -5,4 +5,4 @@ import { firebaseImpl } from './config/firebase'
 
 ReactDOM.render(<Root />, document.getElementById('app'))
 
-module.hot.accept()
+module.hot && module.hot.accept()
