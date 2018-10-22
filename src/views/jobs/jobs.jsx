@@ -51,6 +51,7 @@ class Jobs extends Component {
     render() {
         return (
             <React.Fragment>
+                <Nav />
                 <div className='page-opportunity p-3 pt-4'>
                     <div className='mb-4'>
                         <h3>Oportunidades</h3>

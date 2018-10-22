@@ -12,8 +12,6 @@ class Master extends Component {
 
         return (
             <div className='master'>
-                <Nav />
-
                 {children}
 
                 <ToastContainer />

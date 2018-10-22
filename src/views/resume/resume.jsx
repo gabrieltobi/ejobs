@@ -8,6 +8,7 @@ import Select from '../../components/select/select'
 import firebase from 'firebase'
 import { firebaseDb, COLLECTIONS } from '../../config/firebase'
 import { toast } from 'react-toastify'
+import Nav from '../../components/nav/nav'
 
 class Resume extends Component {
     constructor(props) {
@@ -44,6 +45,7 @@ class Resume extends Component {
 
         return (
             <React.Fragment>
+                <Nav />
                 <div className='page-opportunity p-3 pt-4'>
                     <div className='mb-4'>
                         <h3>Currículo</h3>
