@@ -28,7 +28,7 @@ class NavUser extends Component {
                 </div>
 
                 <div className='group'>
-                    <a href='#' className='btn btn-link' onClick={this.logout} role='button'>
+                    <a href='/curriculo' className='btn btn-link' role='button'>
                         <FontAwesomeIcon icon={faEnvelope} className='mr-2' />
                         {person.name}
                     </a>
@@ -37,6 +37,7 @@ class NavUser extends Component {
                         className='user-img rounded-circle'
                         src={person.photo || userNoPhoto}
                         alt='Foto do Usuário'
+                        onClick={this.logout}
                     />
                 </div>
             </div >

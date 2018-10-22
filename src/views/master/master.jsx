@@ -2,6 +2,7 @@ import './master.scss'
 
 import React, { Component } from 'react'
 import { ToastContainer } from 'react-toastify'
+import Nav from '../../components/nav/nav'
 
 class Master extends Component {
     render() {
@@ -11,6 +12,8 @@ class Master extends Component {
 
         return (
             <div className='master'>
+                <Nav />
+
                 {children}
 
                 <ToastContainer />

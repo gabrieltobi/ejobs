@@ -1,4 +1,4 @@
-import './login.scss'
+import './signin.scss'
 
 import React, { Component } from 'react'
 import logo from '../../images/logo.png'
@@ -10,7 +10,7 @@ import { toast } from 'react-toastify'
 import Input from '../../components/input/input'
 import ReCAPTCHA from 'react-google-recaptcha'
 
-class Login extends Component {
+class SignIn extends Component {
     state = {
         formWasValidated: false
     }
@@ -130,7 +130,7 @@ class Login extends Component {
                 </form>
 
                 <h5>Não possui uma conta?</h5>
-                <a href='/signup'>
+                <a href='/cadastro/candidato'>
                     <h6>Criar conta</h6>
                 </a>
             </div>
@@ -143,4 +143,4 @@ const fields = [
     'password'
 ]
 
-export default Form(Login, fields)
+export default Form(SignIn, fields)

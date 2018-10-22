@@ -9,7 +9,6 @@ class Home extends Component {
     render() {
         return (
             <React.Fragment>
-                <Nav />
                 <Highlights />
                 <Passionates />
                 <Opportunities />

@@ -14,5 +14,7 @@ export const firebaseDb = firebase.firestore()
 firebaseDb.settings({ timestampsInSnapshots: true })
 
 export const COLLECTIONS = {
-    PEOPLE: 'people'
+    PEOPLE: 'people',
+    COMPANIES: 'companies',
+    RESUMES: 'resumes'
 }

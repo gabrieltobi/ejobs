@@ -20,7 +20,7 @@ class Checkbox extends Component {
                 <div className='form-check'>
                     <input
                         id={id}
-                        type={type || 'text'}
+                        type={type || 'checkbox'}
                         className={`form-check-input${className ? ` ${className}` : ''}`}
                         title={title}
                         {...inputProps}

@@ -30,12 +30,7 @@ export function Form(WrappedComponent, fields) {
       const value = ((target.type === 'checkbox') ? target.checked : target.value)
       const name = target.name
 
-      this.setState({
-        values: {
-          ...this.state.values,
-          [name]: value
-        }
-      })
+      this.setValueToField(name, value)
     }
 
     setInvalidFeedback = (field, invalidFeedback) => {
@@ -50,12 +45,36 @@ export function Form(WrappedComponent, fields) {
       })
     }
 
+    setValueToField = (field, value) => {
+      this.setState({
+        fields: {
+          ...this.state.fields,
+          [field]: {
+            ...this.state.fields[field],
+            value: value
+          }
+        },
+        values: {
+          ...this.state.values,
+          [field]: value
+        }
+      })
+    }
+
+    setValues = (values) => {
+      Object.keys(values).forEach(valueKey => {
+        this.setValueToField(valueKey, values[valueKey])
+      })
+    }
+
     render() {
       return (
         <WrappedComponent
           fields={this.state.fields}
           values={this.state.values}
           setInvalidFeedback={this.setInvalidFeedback}
+          setValueToField={this.setValueToField}
+          setValues={this.setValues}
           {...this.props}
         />
       )

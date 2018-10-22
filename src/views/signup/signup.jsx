@@ -7,21 +7,27 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebookF, faLinkedinIn } from '@fortawesome/free-brands-svg-icons'
 import { Form } from '../../utils/Form'
 import { getNumbersOnly } from '../../utils/Toolbox'
-import { isValidCpf } from '../../utils/Validations'
+import { isValid as isValidCpf } from "@fnando/cpf"
+import { isValid as isValidCnpj } from "@fnando/cnpj"
 import firebase from 'firebase'
 import { toast } from 'react-toastify'
 import { firebaseDb, COLLECTIONS } from '../../config/firebase'
 import ReCAPTCHA from 'react-google-recaptcha'
 
 class SignUp extends Component {
-    state = {
-        formWasValidated: false
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            formWasValidated: false,
+            applicantMode: (props.match.params.mode === 'candidato')
+        }
     }
 
     recaptchaRef = React.createRef()
     tabs = [
-        { tab: 'Candidato', hashs: ['#candidato', '#', ''] },
-        { tab: 'Empresa', hashs: ['#empresa'] }
+        { tab: 'Candidato', mode: 'candidato' },
+        { tab: 'Empresa', mode: 'empresa' }
     ]
 
     cpfValidation = (evt) => {
@@ -39,6 +45,30 @@ class SignUp extends Component {
         if (!input.validity.patternMismatch) {
             if (!isValidCpf(getNumbersOnly(value))) {
                 validationText = 'Informe um CPF válido'
+            }
+        }
+
+        input.setCustomValidity(validationText)
+        setInvalidFeedback(field, validationText)
+
+        fields[field].onChange(evt)
+    }
+
+    cnpjValidation = (evt) => {
+        const {
+            fields,
+            setInvalidFeedback
+        } = this.props
+
+        const input = evt.target
+        const value = input.value
+        const field = input.name
+        let validationText = ''
+
+        //Só checa após já ter passado a validação nativa do browser
+        if (!input.validity.patternMismatch) {
+            if (!isValidCnpj(getNumbersOnly(value))) {
+                validationText = 'Informe um CNPJ válido'
             }
         }
 
@@ -108,6 +138,7 @@ class SignUp extends Component {
             },
             history
         } = this.props
+        const { applicantMode } = this.state
 
         firebase.auth()
             .createUserWithEmailAndPassword(userData.email, password)
@@ -119,18 +150,26 @@ class SignUp extends Component {
                 userData.creationDate = now
                 userData.tosAcceptanceDate = now
 
-                firebaseDb.collection(COLLECTIONS.PEOPLE)
+                firebaseDb.collection(applicantMode ? COLLECTIONS.PEOPLE : COLLECTIONS.COMPANIES)
                     .doc(uid)
                     .set(userData, { merge: true })
-                    .then(() => history.push('/'))
+                    .then(() => {
+                        if (applicantMode) {
+                            history.push('/curriculo')
+                        } else {
+                            history.push('/')
+                        }
+                    })
             })
             .catch(error => toast.error(error.message))
     }
 
     renderTab = (tab) => {
+        const { match: { params: { mode } } } = this.props
+
         return (
-            <li key={tab.hashs[0]} className='nav-item'>
-                <a className={`nav-link${(tab.hashs.includes(location.hash) ? ' active' : '')}`} href={tab.hashs[0]}>{tab.tab}</a>
+            <li key={tab.mode} className='nav-item'>
+                <a className={`nav-link${((tab.mode === mode) ? ' active' : '')}`} href={tab.mode}>{tab.tab}</a>
             </li>
         )
     }
@@ -141,7 +180,8 @@ class SignUp extends Component {
         } = this.props
 
         const {
-            formWasValidated
+            formWasValidated,
+            applicantMode
         } = this.state
 
         return (
@@ -154,8 +194,6 @@ class SignUp extends Component {
                     <ul className='nav nav-tabs nav-fill'>
                         {this.tabs.map(this.renderTab)}
                     </ul>
-
-                    <div id='empresa'>Opa, com licença</div>
 
                     <form className={`needs-validation border border-top-0 rounded-bottom mb-3 p-4${formWasValidated ? ' was-validated' : ''}`} onSubmit={this.onSubmit} noValidate>
 
@@ -186,6 +224,29 @@ class SignUp extends Component {
                             {...fields.document}
                             onChange={this.cpfValidation}
                         /> */}
+
+                            {
+                                !applicantMode &&
+                                <React.Fragment>
+                                    <Input
+                                        type='tel'
+                                        label='CNPJ'
+                                        title='Informe um CNPJ'
+                                        required
+                                        pattern='^\d{2}.\d{3}.\d{3}\/\d{4}-\d{2}$'
+                                        mask='99.999.999/9999-99'
+                                        {...fields.document}
+                                        onChange={this.cnpjValidation}
+                                    />
+
+                                    <Input
+                                        label='Razão Social'
+                                        title='Informe a Razão Social'
+                                        required
+                                        {...fields.companyName}
+                                    />
+                                </React.Fragment>
+                            }
 
                             <Input
                                 type='email'
@@ -237,24 +298,29 @@ class SignUp extends Component {
 
                         <button className='btn btn-primary btn-block' type='submit'>
                             Criar Conta
-                    </button>
+                        </button>
 
-                        <span className='d-block my-3'>ou</span>
+                        {
+                            applicantMode &&
+                            <React.Fragment>
+                                <span className='d-block my-3'>ou</span>
 
-                        <button type='button' className='btn btn-secondary btn-block mb-3' onClick={this.facebookLogin}>
-                            <FontAwesomeIcon icon={faFacebookF} className='mr-3' />
-                            Acessar Com Facebook
-                    </button>
+                                <button type='button' className='btn btn-secondary btn-block mb-3' onClick={this.facebookLogin}>
+                                    <FontAwesomeIcon icon={faFacebookF} className='mr-3' />
+                                    Criar via Facebook
+                                </button>
 
-                        <button type='button' className='btn btn-secondary btn-block'>
-                            <FontAwesomeIcon icon={faLinkedinIn} className='mr-3' />
-                            Acessar Com LinkedIn
-                    </button>
+                                <button type='button' className='btn btn-secondary btn-block'>
+                                    <FontAwesomeIcon icon={faLinkedinIn} className='mr-3' />
+                                    Criar via LinkedIn
+                                </button>
+                            </React.Fragment>
+                        }
                     </form>
                 </div>
 
                 <h5>Já possui uma conta?</h5>
-                <a href='/login'>
+                <a href='/acesso'>
                     <h6>Acessar</h6>
                 </a>
             </div>
@@ -266,6 +332,7 @@ const fields = [
     'name',
     'surname',
     'document',
+    'companyName',
     'email',
     'emailConfirm',
     'password',
