@@ -39,3 +39,25 @@ class Select extends Component {
 }
 
 export default Select
+
+export const enumToOptions = (enumeration, empty) => {
+    const renderOption = (key) => {
+        const option = enumeration[key]
+
+        return (
+            <option key={option.value} value={option.value}>
+                {option.name}
+            </option>
+        )
+    }
+
+    return (
+        <React.Fragment>
+            {
+                empty &&
+                <option value=''>{empty}</option>
+            }
+            {Object.keys(enumeration).map(renderOption)}
+        </React.Fragment>
+    )
+}
