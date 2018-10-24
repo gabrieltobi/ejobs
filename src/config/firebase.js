@@ -16,5 +16,6 @@ firebaseDb.settings({ timestampsInSnapshots: true })
 export const COLLECTIONS = {
     PEOPLE: 'people',
     COMPANIES: 'companies',
-    RESUMES: 'resumes'
+    RESUMES: 'resumes',
+    JOBS: 'jobs'
 }
