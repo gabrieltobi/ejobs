@@ -8,6 +8,8 @@ import Select, { enumToOptions } from '../../components/select/select'
 import { Form } from '../../utils/Form'
 import { firebaseDb, COLLECTIONS } from '../../config/firebase'
 import { HIRING_TYPES } from '../../config/enums'
+import { WORK_PLACE } from '../../config/enums'
+import { OCUPPATION } from '../../config/enums'
 
 class Jobs extends Component {
     constructor(props) {
@@ -86,19 +88,15 @@ class Jobs extends Component {
                         />
 
                         <Select
-                            title='Escolha um local de trabalhoooo'
+                            title='Escolha um local de trabalho'
                             {...fields.jobLocation}
-                            options={(
-                                <option value=''>Local de trabalho</option>
-                            )}
+                            options={enumToOptions(WORK_PLACE, 'Local de Trabalho')}
                         />
 
                         <Select
                             title='Escolha uma área'
                             {...fields.jobArea}
-                            options={(
-                                <option value=''>Área</option>
-                            )}
+                            options={enumToOptions(OCUPPATION, 'Local de Trabalho')}
                         />
                     </div>
 
