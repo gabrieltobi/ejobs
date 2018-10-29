@@ -9,7 +9,7 @@ import Home from './views/home/home'
 import SignIn from './views/signin/signin'
 import SignUp from './views/signup/signup'
 import Jobs from './views/jobs/jobs'
-import CompanyJobs from './views/companyJobs/companyJobs'
+import MyJobs from './views/myJobs/myJobs'
 import Master from './views/master/master'
 import Resume from './views/resume/resume'
 
@@ -24,7 +24,7 @@ class Root extends Component {
                     <Master>
                         <Route exact path='/' component={Home} />
                         <Route path="/jobs" component={Jobs} />
-                        <Route path="/companyJobs" component={CompanyJobs} />
+                        <Route path="/myJobs" component={MyJobs} />
                         <Route path="/curriculo" component={Resume} />
                     </Master>
                 </React.Fragment>

@@ -18,45 +18,7 @@ class Jobs extends Component {
         /* Em opportunities está mockado, é o que está na tela */
         /* Em jobs é o que é buscado do firebase logo abaixo */
         this.state = {
-            jobs: [],
-            opportunities: [
-                {
-                    image: 'https://via.placeholder.com/100x220',
-                    department: 'Vendas',
-                    role: 'Executivo Vendas',
-                    type: 'Efetivo',
-                    location: 'Caxias do Sul',
-                    isPerson: false,
-                    id: 1
-                },
-                {
-                    image: 'https://via.placeholder.com/200x220',
-                    department: 'Vendas',
-                    role: 'Executivo Vendas',
-                    type: 'Efetivo',
-                    location: 'Caxias do Sul',
-                    isPerson: false,
-                    id: 2
-                },
-                {
-                    image: 'https://via.placeholder.com/100x180',
-                    department: 'Vendas',
-                    role: 'Executivo Vendas',
-                    type: 'Efetivo',
-                    location: 'Caxias do Sul',
-                    isPerson: true,
-                    id: 3
-                },
-                {
-                    image: 'https://via.placeholder.com/220x190',
-                    department: 'Vendas',
-                    role: 'Executivo Vendas',
-                    type: 'Efetivo',
-                    location: 'Caxias do Sul',
-                    isPerson: false,
-                    id: 4
-                }
-            ]
+            jobs: []
         }
 
         firebaseDb.collection(COLLECTIONS.JOBS)
@@ -101,10 +63,10 @@ class Jobs extends Component {
                     </div>
 
                     <div className='d-flex flex-wrap'>
-                        {this.state.opportunities.map(opportunity => {
+                        {this.state.jobs.map(opportunity => {
                             return <Opportunity key={opportunity.id} {...opportunity} />
                         })}
-                    </div>
+                    </div>   
                 </div>
             </React.Fragment>
         )

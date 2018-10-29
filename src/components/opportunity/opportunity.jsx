@@ -10,10 +10,10 @@ class Opportunity extends Component {
     render() {
         const {
             image,
-            department,
+            sector,
             role,
             type,
-            location,
+            place,
             isPerson,
             date
         } = this.props
@@ -21,7 +21,7 @@ class Opportunity extends Component {
         return (
             <div className='opportunity card border mr-3 mb-3'>
                 <div className='card-img' style={{ backgroundImage: `url(${image})` }}>
-                    <h5 className='bg-dark text-white card-dpt py-2 px-2'>{department}</h5>
+                    <h5 className='bg-dark text-white card-dpt py-2 px-2'>{sector}</h5>
                 </div>
                 <div className='card-body'>
                     <div className='card-text'>{role}</div>
@@ -32,7 +32,7 @@ class Opportunity extends Component {
                         </span>
                         <span>
                             <FontAwesomeIcon icon={faMapMarker} className='mr-1' />
-                            {location}
+                            {place}
                         </span>
                     </div>
                     {
@@ -42,7 +42,7 @@ class Opportunity extends Component {
                             {format(date, 'DD/MM/YYYY')}
                         </div>
                     }
-                    <a href={isPerson ? '/jobs' : '/companyJobs'} className='btn btn-primary mt-3'>
+                    <a href={isPerson ? '/jobs' : '/myJobs'} className='btn btn-primary mt-3'>
                         {isPerson ? 'Contatar' : 'Candidatar'}
                     </a>
                 </div>
