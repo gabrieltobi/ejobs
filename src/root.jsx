@@ -21,12 +21,10 @@ class Root extends Component {
                     <Route path="/acesso" component={SignIn} />
                     <Route path="/cadastro/:mode(candidato|empresa)" component={SignUp} />
 
-                    <Master>
-                        <Route exact path='/' component={Home} />
-                        <Route path="/jobs" component={Jobs} />
-                        <Route path="/companyJobs" component={CompanyJobs} />
-                        <Route path="/curriculo" component={Resume} />
-                    </Master>
+                    <Route exact path='/' component={Home} />
+                    <Route path="/jobs" component={Jobs} />
+                    <Route path="/companyJobs" component={CompanyJobs} />
+                    <Route path="/curriculo" component={Resume} />
                 </React.Fragment>
             </Router>
         )
