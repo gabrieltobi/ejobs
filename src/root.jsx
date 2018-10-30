@@ -12,20 +12,22 @@ import Jobs from './views/jobs/jobs'
 import CompanyJobs from './views/companyJobs/companyJobs'
 import Master from './views/master/master'
 import Resume from './views/resume/resume'
+import { publicRoute } from './components/publicRoute/publicRoute'
+import { AppProvider } from './views/app/app'
 
 class Root extends Component {
     render() {
         return (
             <Router>
-                <React.Fragment>
+                <AppProvider>
                     <Route path="/acesso" component={SignIn} />
-                    <Route path="/cadastro/:mode(candidato|empresa)" component={SignUp} />
+                    <Route path="/cadastro/:mode(candidato|empresa)" component={publicRoute(SignUp)} />
 
                     <Route exact path='/' component={Home} />
                     <Route path="/jobs" component={Jobs} />
                     <Route path="/companyJobs" component={CompanyJobs} />
                     <Route path="/curriculo" component={Resume} />
-                </React.Fragment>
+                </AppProvider>
             </Router>
         )
     }

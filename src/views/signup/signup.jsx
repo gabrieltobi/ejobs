@@ -184,6 +184,8 @@ class SignUp extends Component {
             applicantMode
         } = this.state
 
+        console.log(this)
+
         return (
             <div className='page-signup text-center py-4 px-3'>
                 <a href='/' className='logo d-block mx-auto mb-3'>
