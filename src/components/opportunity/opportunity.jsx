@@ -5,8 +5,23 @@ import { format } from 'date-fns'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTag, faMapMarker, faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
+import { COLLECTIONS, firebaseDb } from '../../config/firebase';
+import firebase from 'firebase'
+import { toast } from 'react-toastify';
 
 class Opportunity extends Component {
+
+
+    runFor = () => {
+        
+        firebaseDb.collection(COLLECTIONS.JOBS_PEOPLE)
+            .doc(firebase.auth().currentUser.uid)
+            .set({job: this.props.id}, { merge: true })
+            .then(() => {
+                toast.success('Candidatura realizada com sucesso!')
+            })
+      }
+
     render() {
         const {
             image,
@@ -17,6 +32,7 @@ class Opportunity extends Component {
             isPerson,
             date
         } = this.props
+        console.log(this)
 
         return (
             <div className='opportunity card border mr-3 mb-3'>
@@ -42,9 +58,9 @@ class Opportunity extends Component {
                             {format(date, 'DD/MM/YYYY')}
                         </div>
                     }
-                    <a href={isPerson ? '/jobs' : '/myJobs'} className='btn btn-primary mt-3'>
+                    <button onClick={this.runFor} className='btn btn-primary mt-3'>
                         {isPerson ? 'Contatar' : 'Candidatar'}
-                    </a>
+                    </button>
                 </div>
             </div>
         )

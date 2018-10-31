@@ -24,8 +24,14 @@ class Jobs extends Component {
         firebaseDb.collection(COLLECTIONS.JOBS)
             .get()
             .then(data => {
-                this.setState({ jobs: data.docs.map(job => job.data()) })
+                this.setState({ jobs: data.docs.map(job => {
+                    let job2 = job.data()
+                    job2.id = job.id
+                    console.log(job)
+                    return job2
+                }) 
             })
+        })
     }
 
     render() {
