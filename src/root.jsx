@@ -21,13 +21,13 @@ class Root extends Component {
         return (
             <Router>
                 <AppProvider>
-                    <Route path="/acesso" component={SignIn} />
+                    <Route path="/acesso" component={publicRoute(SignIn)} />
                     <Route path="/cadastro/:mode(candidato|empresa)" component={publicRoute(SignUp)} />
 
-                    <Route exact path='/' component={Home} />
+                    <Route exact path='/' component={publicRoute(Home)} />
                     <Route path="/jobs" component={privateRoute(Jobs)} />
                     <Route path="/companyJobs" component={privateRoute(CompanyJobs)} />
-                    <Route path="/curriculo" component={Resume} />
+                    <Route path="/curriculo" component={privateRoute(Resume)} />
                 </AppProvider>
             </Router>
         )

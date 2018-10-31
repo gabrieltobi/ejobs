@@ -3,10 +3,9 @@ import { AppConsumer } from '../../views/app/app'
 
 export function publicRoute(WrappedComponent) {
     return class extends Component {
-        static displayName = `PublicRoute(${getDisplayName(WrappedComponent)})`;
+        static displayName = `PublicRoute(${getDisplayName(WrappedComponent)})`
 
         render() {
-            console.log('oi')
             return (
                 <AppConsumer>
                     {(globalState) => {
@@ -19,5 +18,5 @@ export function publicRoute(WrappedComponent) {
 }
 
 function getDisplayName(WrappedComponent) {
-    return WrappedComponent.displayName || WrappedComponent.name || 'Component';
+    return WrappedComponent.displayName || WrappedComponent.name || 'Component'
 }
