@@ -2,6 +2,7 @@ import './opportunity.scss'
 
 import React, { Component } from 'react'
 import { format } from 'date-fns'
+import { Link } from 'react-router-dom'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTag, faMapMarker, faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
@@ -42,9 +43,9 @@ class Opportunity extends Component {
                             {format(date, 'DD/MM/YYYY')}
                         </div>
                     }
-                    <a href={isPerson ? '/jobs' : '/companyJobs'} className='btn btn-primary mt-3'>
+                    <Link to={isPerson ? '/jobs' : '/companyJobs'} className='btn btn-primary mt-3'>
                         {isPerson ? 'Contatar' : 'Candidatar'}
-                    </a>
+                    </Link>
                 </div>
             </div>
         )

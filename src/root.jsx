@@ -14,6 +14,7 @@ import Master from './views/master/master'
 import Resume from './views/resume/resume'
 import { publicRoute } from './components/publicRoute/publicRoute'
 import { AppProvider } from './views/app/app'
+import { privateRoute } from './components/privateRoute/privateRoute'
 
 class Root extends Component {
     render() {
@@ -24,8 +25,8 @@ class Root extends Component {
                     <Route path="/cadastro/:mode(candidato|empresa)" component={publicRoute(SignUp)} />
 
                     <Route exact path='/' component={Home} />
-                    <Route path="/jobs" component={Jobs} />
-                    <Route path="/companyJobs" component={CompanyJobs} />
+                    <Route path="/jobs" component={privateRoute(Jobs)} />
+                    <Route path="/companyJobs" component={privateRoute(CompanyJobs)} />
                     <Route path="/curriculo" component={Resume} />
                 </AppProvider>
             </Router>

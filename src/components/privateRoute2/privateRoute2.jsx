@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import { AppConsumer } from '../../views/app/app'
 
-export function publicRoute(WrappedComponent) {
+export function privateRoute(WrappedComponent) {
     return class extends Component {
         static displayName = `PublicRoute(${getDisplayName(WrappedComponent)})`;
 
+        componentWillMount = () => {
+            console.log('123')
+        }
+
         render() {
-            console.log('oi')
             return (
                 <AppConsumer>
                     {(globalState) => {

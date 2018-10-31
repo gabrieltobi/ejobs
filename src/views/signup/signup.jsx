@@ -95,9 +95,9 @@ class SignUp extends Component {
 
         //Só checa após já ter passado a validação nativa do browser
         //if (!emailConfirmValidity.valueMissing && !emailConfirmValidity.typeMismatch) {
-            //if (emailInput.value !== emailConfirmInput.value) {
-            //    validationText = 'Informe o mesmo e-mail informado anteriormente'
-            //}
+        //if (emailInput.value !== emailConfirmInput.value) {
+        //    validationText = 'Informe o mesmo e-mail informado anteriormente'
+        //}
         //}
 
         //emailConfirmInput.setCustomValidity(validationText)
@@ -183,8 +183,6 @@ class SignUp extends Component {
             formWasValidated,
             applicantMode
         } = this.state
-
-        console.log(this)
 
         return (
             <div className='page-signup text-center py-4 px-3'>
