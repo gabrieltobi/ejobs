@@ -6,23 +6,39 @@ import { Link } from 'react-router-dom'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTag, faMapMarker, faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
+import { COLLECTIONS, firebaseDb } from '../../config/firebase';
+import firebase from 'firebase'
+import { toast } from 'react-toastify';
 
 class Opportunity extends Component {
+
+
+    runFor = () => {
+        
+        firebaseDb.collection(COLLECTIONS.JOBS_PEOPLE)
+            .doc(firebase.auth().currentUser.uid)
+            .set({job: this.props.id}, { merge: true })
+            .then(() => {
+                toast.success('Candidatura realizada com sucesso!')
+            })
+      }
+
     render() {
         const {
             image,
-            department,
+            sector,
             role,
             type,
-            location,
+            place,
             isPerson,
             date
         } = this.props
+        console.log(this)
 
         return (
             <div className='opportunity card border mr-3 mb-3'>
                 <div className='card-img' style={{ backgroundImage: `url(${image})` }}>
-                    <h5 className='bg-dark text-white card-dpt py-2 px-2'>{department}</h5>
+                    <h5 className='bg-dark text-white card-dpt py-2 px-2'>{sector}</h5>
                 </div>
                 <div className='card-body'>
                     <div className='card-text'>{role}</div>
@@ -33,7 +49,7 @@ class Opportunity extends Component {
                         </span>
                         <span>
                             <FontAwesomeIcon icon={faMapMarker} className='mr-1' />
-                            {location}
+                            {place}
                         </span>
                     </div>
                     {
@@ -43,9 +59,9 @@ class Opportunity extends Component {
                             {format(date, 'DD/MM/YYYY')}
                         </div>
                     }
-                    <Link to={isPerson ? '/jobs' : '/companyJobs'} className='btn btn-primary mt-3'>
+                    <button onClick={this.runFor} className='btn btn-primary mt-3'>
                         {isPerson ? 'Contatar' : 'Candidatar'}
-                    </Link>
+                    </button>
                 </div>
             </div>
         )

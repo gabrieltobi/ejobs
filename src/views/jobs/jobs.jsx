@@ -8,6 +8,8 @@ import Select, { enumToOptions } from '../../components/select/select'
 import { Form } from '../../utils/Form'
 import { firebaseDb, COLLECTIONS } from '../../config/firebase'
 import { HIRING_TYPES } from '../../config/enums'
+import { WORK_PLACE } from '../../config/enums'
+import { OCUPPATION } from '../../config/enums'
 
 class Jobs extends Component {
     constructor(props) {
@@ -16,52 +18,20 @@ class Jobs extends Component {
         /* Em opportunities está mockado, é o que está na tela */
         /* Em jobs é o que é buscado do firebase logo abaixo */
         this.state = {
-            jobs: [],
-            opportunities: [
-                {
-                    image: 'https://via.placeholder.com/100x220',
-                    department: 'Vendas',
-                    role: 'Executivo Vendas',
-                    type: 'Efetivo',
-                    location: 'Caxias do Sul',
-                    isPerson: false,
-                    id: 1
-                },
-                {
-                    image: 'https://via.placeholder.com/200x220',
-                    department: 'Vendas',
-                    role: 'Executivo Vendas',
-                    type: 'Efetivo',
-                    location: 'Caxias do Sul',
-                    isPerson: false,
-                    id: 2
-                },
-                {
-                    image: 'https://via.placeholder.com/100x180',
-                    department: 'Vendas',
-                    role: 'Executivo Vendas',
-                    type: 'Efetivo',
-                    location: 'Caxias do Sul',
-                    isPerson: true,
-                    id: 3
-                },
-                {
-                    image: 'https://via.placeholder.com/220x190',
-                    department: 'Vendas',
-                    role: 'Executivo Vendas',
-                    type: 'Efetivo',
-                    location: 'Caxias do Sul',
-                    isPerson: false,
-                    id: 4
-                }
-            ]
+            jobs: []
         }
 
         firebaseDb.collection(COLLECTIONS.JOBS)
             .get()
             .then(data => {
-                this.setState({ jobs: data.docs.map(job => job.data()) })
+                this.setState({ jobs: data.docs.map(job => {
+                    let job2 = job.data()
+                    job2.id = job.id
+                    console.log(job)
+                    return job2
+                }) 
             })
+        })
     }
 
     render() {
@@ -88,25 +58,21 @@ class Jobs extends Component {
                         <Select
                             title='Escolha um local de trabalho'
                             {...fields.jobLocation}
-                            options={(
-                                <option value=''>Local de trabalho</option>
-                            )}
+                            options={enumToOptions(WORK_PLACE, 'Local de Trabalho')}
                         />
 
                         <Select
                             title='Escolha uma área'
                             {...fields.jobArea}
-                            options={(
-                                <option value=''>Área</option>
-                            )}
+                            options={enumToOptions(OCUPPATION, 'Local de Trabalho')}
                         />
                     </div>
 
                     <div className='d-flex flex-wrap'>
-                        {this.state.opportunities.map(opportunity => {
+                        {this.state.jobs.map(opportunity => {
                             return <Opportunity key={opportunity.id} {...opportunity} />
                         })}
-                    </div>
+                    </div>   
                 </div>
             </React.Fragment>
         )

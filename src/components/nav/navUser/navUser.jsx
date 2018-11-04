@@ -17,7 +17,7 @@ class NavUser extends Component {
         return (
             <div className='actions d-flex justify-content-between align-items-center'>
                 <div className='group'>
-                    <a href='/jobs' className='btn btn-link'>
+                    <a href='/myJobs' className='btn btn-link'>
                         <FontAwesomeIcon icon={faBriefcase} className='mr-2' />
                         Minhas Vagas
                     </a>

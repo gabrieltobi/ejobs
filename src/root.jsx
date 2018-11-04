@@ -9,7 +9,7 @@ import Home from './views/home/home'
 import SignIn from './views/signin/signin'
 import SignUp from './views/signup/signup'
 import Jobs from './views/jobs/jobs'
-import CompanyJobs from './views/companyJobs/companyJobs'
+import MyJobs from './views/myJobs/myJobs'
 import Master from './views/master/master'
 import Resume from './views/resume/resume'
 import { publicRoute } from './components/publicRoute/publicRoute'
@@ -26,7 +26,7 @@ class Root extends Component {
 
                     <Route exact path='/' component={publicRoute(Home)} />
                     <Route path="/jobs" component={privateRoute(Jobs)} />
-                    <Route path="/companyJobs" component={privateRoute(CompanyJobs)} />
+                    <Route path="/myJobs" component={privateRoute(MyJobs)} />
                     <Route path="/curriculo" component={privateRoute(Resume)} />
                 </AppProvider>
             </Router>
