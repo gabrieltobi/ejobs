@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 class NavAnonymus extends Component {
     render() {
         return (
             <div className='actions text-right'>
-                <a href='/acesso' className='btn btn-secondary mr-2'>
+                <Link to='/acesso' className='btn btn-secondary mr-2'>
                     Acessar
-                </a>
-                <a href='/cadastro/candidato' className='btn btn-primary'>
+                </Link>
+                <Link to='/cadastro/candidato' className='btn btn-primary'>
                     Criar Cadastro
-                </a>
+                </Link>
             </div>
         )
     }

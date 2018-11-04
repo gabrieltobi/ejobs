@@ -1,18 +1,21 @@
 import './signup.scss'
 
 import React, { Component } from 'react'
-import logo from '../../images/logo.png'
-import Input from '../../components/input/input'
+import { Link } from 'react-router-dom'
+import ReCAPTCHA from 'react-google-recaptcha'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebookF, faLinkedinIn } from '@fortawesome/free-brands-svg-icons'
-import { Form } from '../../utils/Form'
-import { getNumbersOnly } from '../../utils/Toolbox'
 import { isValid as isValidCpf } from "@fnando/cpf"
 import { isValid as isValidCnpj } from "@fnando/cnpj"
 import firebase from 'firebase'
 import { toast } from 'react-toastify'
+
+import Input from '../../components/input/input'
+import { Form } from '../../utils/Form'
+import { getNumbersOnly } from '../../utils/Toolbox'
 import { firebaseDb, COLLECTIONS } from '../../config/firebase'
-import ReCAPTCHA from 'react-google-recaptcha'
+
+import logo from '../../images/logo.png'
 
 class SignUp extends Component {
     constructor(props) {
@@ -186,9 +189,9 @@ class SignUp extends Component {
 
         return (
             <div className='page-signup text-center py-4 px-3'>
-                <a href='/' className='logo d-block mx-auto mb-3'>
+                <Link to='/' className='logo d-block mx-auto mb-3'>
                     <img src={logo} alt='Logo do Site' />
-                </a>
+                </Link>
 
                 <div className='usable-area mx-auto'>
                     <ul className='nav nav-tabs nav-fill'>
@@ -320,9 +323,9 @@ class SignUp extends Component {
                 </div>
 
                 <h5>Já possui uma conta?</h5>
-                <a href='/acesso'>
+                <Link to='/acesso'>
                     <h6>Acessar</h6>
-                </a>
+                </Link>
             </div>
         )
     }

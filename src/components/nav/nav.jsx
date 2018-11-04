@@ -1,10 +1,13 @@
 import './nav.scss'
 
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import firebase from 'firebase'
+
 import NavAnonymus from './navAnonymus/navAnonymus'
 import NavUser from './navUser/navUser'
 import { firebaseDb, COLLECTIONS } from '../../config/firebase'
+
 import logo from '../../images/logo.png'
 
 class Nav extends Component {
@@ -49,9 +52,9 @@ class Nav extends Component {
 
         return (
             <nav className='pcd-nav border-bottom p-2 shadow-sm d-flex align-items-center'>
-                <a className='logo' href='/'>
-                    <img src={logo} alt='Logo do Site' />
-                </a>
+                <Link to='/' className='logo'>
+                    <img src={logo} alt='Logo do PCD Jobs' />
+                </Link>
 
                 {!loading && nav}
             </nav>

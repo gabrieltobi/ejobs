@@ -1,14 +1,17 @@
 import './signin.scss'
 
 import React, { Component } from 'react'
-import logo from '../../images/logo.png'
+import { Link } from 'react-router-dom'
 import firebase from 'firebase'
+import ReCAPTCHA from 'react-google-recaptcha'
+import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebookF, faLinkedinIn } from '@fortawesome/free-brands-svg-icons'
+
 import { Form } from '../../utils/Form'
-import { toast } from 'react-toastify'
 import Input from '../../components/input/input'
-import ReCAPTCHA from 'react-google-recaptcha'
+
+import logo from '../../images/logo.png'
 
 class SignIn extends Component {
     state = {
@@ -34,6 +37,7 @@ class SignIn extends Component {
     }
 
     onSubmit = (event) => {
+        const { setLoading } = this.props
         event.preventDefault()
 
         const form = event.target
@@ -42,6 +46,7 @@ class SignIn extends Component {
             return this.setState({ formWasValidated: true })
         }
 
+        setLoading(true)
         this.checkRecaptcha()
     }
 
@@ -51,13 +56,15 @@ class SignIn extends Component {
                 email,
                 password
             },
-            history
+            history,
+            setLoading
         } = this.props
 
         firebase.auth()
             .signInWithEmailAndPassword(email, password)
             .then(firebaseUserData => history.push('/'))
             .catch(error => toast.error(error.message))
+            .finally(() => setLoading())
     }
 
     render() {
@@ -71,9 +78,9 @@ class SignIn extends Component {
 
         return (
             <div className='page-login text-center py-4 px-3'>
-                <a href='/' className='logo d-block mx-auto'>
+                <Link to='/' className='logo d-block mx-auto'>
                     <img src={logo} alt='Logo do Site' />
-                </a>
+                </Link>
 
                 <form className={`needs-validation border rounded m-3 mx-auto p-4${formWasValidated ? ' was-validated' : ''}`} onSubmit={this.onSubmit} noValidate>
                     <h2>Entre com sua conta</h2>
@@ -130,9 +137,9 @@ class SignIn extends Component {
                 </form>
 
                 <h5>Não possui uma conta?</h5>
-                <a href='/cadastro/candidato'>
+                <Link to='/cadastro/candidato'>
                     <h6>Criar conta</h6>
-                </a>
+                </Link>
             </div>
         )
     }

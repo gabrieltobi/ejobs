@@ -15,6 +15,7 @@ export class AppProvider extends Component {
         this.setLoading(true)
 
         firebase.auth().onAuthStateChanged(user => {
+            console.log(user)
             this.setState({ user })
             this.setLoading()
         });
