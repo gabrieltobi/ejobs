@@ -8,20 +8,31 @@ export function Form(WrappedComponent, fields) {
     }
 
     componentWillMount() {
+      let stateFields = {}
+      let stateValues = {}
+
       fields.forEach(field => {
         const fieldProps = {
           onChange: this.handleInputChange,
           id: field,
           name: field,
-          invalidFeedback: null
+          invalidFeedback: null,
+          value: ''
         }
 
-        Object.defineProperty(fieldProps, 'value', {
-          get: () => this.state.values[field]
-        });
+        stateFields = {
+          ...stateFields,
+          [field]: fieldProps
+        }
 
-        this.state.fields[field] = fieldProps
-        this.state.values[field] = null
+        Object.defineProperty(stateValues, field, {
+          get: () => this.state.fields[field].value
+        })
+      })
+
+      this.setState({
+        fields: stateFields,
+        values: stateValues
       })
     }
 
