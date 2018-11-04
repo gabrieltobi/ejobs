@@ -95,9 +95,9 @@ class SignUp extends Component {
 
         //Só checa após já ter passado a validação nativa do browser
         //if (!emailConfirmValidity.valueMissing && !emailConfirmValidity.typeMismatch) {
-            //if (emailInput.value !== emailConfirmInput.value) {
-            //    validationText = 'Informe o mesmo e-mail informado anteriormente'
-            //}
+        //if (emailInput.value !== emailConfirmInput.value) {
+        //    validationText = 'Informe o mesmo e-mail informado anteriormente'
+        //}
         //}
 
         //emailConfirmInput.setCustomValidity(validationText)

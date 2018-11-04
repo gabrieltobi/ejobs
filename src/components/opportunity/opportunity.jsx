@@ -2,6 +2,7 @@ import './opportunity.scss'
 
 import React, { Component } from 'react'
 import { format } from 'date-fns'
+import { Link } from 'react-router-dom'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTag, faMapMarker, faCalendarAlt } from '@fortawesome/free-solid-svg-icons'

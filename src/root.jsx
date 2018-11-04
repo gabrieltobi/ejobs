@@ -12,22 +12,23 @@ import Jobs from './views/jobs/jobs'
 import MyJobs from './views/myJobs/myJobs'
 import Master from './views/master/master'
 import Resume from './views/resume/resume'
+import { publicRoute } from './components/publicRoute/publicRoute'
+import { AppProvider } from './views/app/app'
+import { privateRoute } from './components/privateRoute/privateRoute'
 
 class Root extends Component {
     render() {
         return (
             <Router>
-                <React.Fragment>
-                    <Route path="/acesso" component={SignIn} />
-                    <Route path="/cadastro/:mode(candidato|empresa)" component={SignUp} />
+                <AppProvider>
+                    <Route path="/acesso" component={publicRoute(SignIn)} />
+                    <Route path="/cadastro/:mode(candidato|empresa)" component={publicRoute(SignUp)} />
 
-                    <Master>
-                        <Route exact path='/' component={Home} />
-                        <Route path="/jobs" component={Jobs} />
-                        <Route path="/myJobs" component={MyJobs} />
-                        <Route path="/curriculo" component={Resume} />
-                    </Master>
-                </React.Fragment>
+                    <Route exact path='/' component={publicRoute(Home)} />
+                    <Route path="/jobs" component={privateRoute(Jobs)} />
+                    <Route path="/myJobs" component={privateRoute(MyJobs)} />
+                    <Route path="/curriculo" component={privateRoute(Resume)} />
+                </AppProvider>
             </Router>
         )
     }

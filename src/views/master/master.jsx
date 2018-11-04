@@ -2,7 +2,7 @@ import './master.scss'
 
 import React, { Component } from 'react'
 import { ToastContainer } from 'react-toastify'
-import Nav from '../../components/nav/nav'
+import Loading from '../../components/loading/loading'
 
 class Master extends Component {
     render() {
@@ -15,6 +15,7 @@ class Master extends Component {
                 {children}
 
                 <ToastContainer />
+                <Loading />
             </div>
         )
     }
