@@ -7,6 +7,7 @@ import Nav from '../../components/nav/nav'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { Form } from '../../utils/Form'
 import Input from '../../components/input/input'
+import firebase from 'firebase'
 import { firebaseDb, COLLECTIONS } from '../../config/firebase';
 
 class MyJobs extends Component {
@@ -17,15 +18,44 @@ class MyJobs extends Component {
             myJobs: []
         }
 
-        firebaseDb.collection(COLLECTIONS.JOBS)
+        /*firebaseDb.collection(COLLECTIONS.JOBS)
             .get()
             .then(data => {
                 this.setState({ myJobs: data.docs.map(myJob => myJob.data()) })
-            })
-        
+            })*/
+
+        firebase.auth().onAuthStateChanged(currentUser => {
+            firebaseDb.collection(COLLECTIONS.PEOPLE)
+                .doc(currentUser.uid)
+                .get()
+                .then(doc => {
+                    if (doc.exists) {
+                        console.log(doc.data())
+                        const person = doc.data();
+                        const jobs = person.jobs;
+
+                        Object.keys(jobs).map(job => {
+                            firebaseDb.collection(COLLECTIONS.JOBS)
+                                .doc(job)
+                                .get()
+                                .then(data => {
+                                    console.log(data.data())
+                                    this.setState({
+                                        myJobs: [
+                                            ...this.state.myJobs,
+                                            data.data()
+                                        ]
+                                    })
+                                })
+                        })
+                    }
+                })
+        })
     }
 
     render() {
+        const { myJobs } = this.state
+        console.log(myJobs) // <- O que o firebase retornou
         return (
             <React.Fragment>
                 <Nav />
