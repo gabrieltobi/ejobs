@@ -14,30 +14,31 @@ class Resume extends Component {
     constructor(props) {
         super(props)
 
+        //props.setLoading(true)
         firebase.auth().onAuthStateChanged(currentUser => {
-            firebaseDb.collection(COLLECTIONS.RESUMES)
+            firebaseDb.collection(COLLECTIONS.PEOPLE)
                 .doc(currentUser.uid)
                 .get()
                 .then(doc => {
                     if (doc.exists) {
-                        console.log(doc.data())
                         props.setValues(doc.data())
                     }
                 })
+            //.finally(() => props.setLoading())
         })
     }
 
     onSubmit = (event) => {
         event.preventDefault()
 
-        const { values } = this.props
+        const { values, setLoading } = this.props
 
-        firebaseDb.collection(COLLECTIONS.RESUMES)
+        //setLoading(true)
+        firebaseDb.collection(COLLECTIONS.PEOPLE)
             .doc(firebase.auth().currentUser.uid)
             .set(values, { merge: true })
-            .then(() => {
-                toast.success('Currículo Atualizado')
-            })
+            .then(() => toast.success('Currículo Atualizado'))
+        //.finally(() => setLoading())
     }
 
     render() {
@@ -147,14 +148,20 @@ class Resume extends Component {
                                 <div className="col-sm-12">
                                     <div className="form-group">
                                         <label className='d-block'>Possui educação superior? *</label>
-                                        <div className="form-check form-check-inline">
-                                            <input className="form-check-input" name='education' type="radio" id="haveEducation" value="Y" {...fields.education} />
-                                            <label className="form-check-label" htmlFor="haveEducation">Sim</label>
-                                        </div>
-                                        <div className="form-check form-check-inline">
-                                            <input className="form-check-input" name='education' type="radio" id="haventEducation" value="N" {...fields.education} />
-                                            <label className="form-check-label" htmlFor="haventEducation">Não</label>
-                                        </div>
+                                        <Input
+                                            type='radio'
+                                            label='Sim'
+                                            {...fields.education}
+                                            id='haveEducation'
+                                            value='Y'
+                                        />
+                                        <Input
+                                            type='radio'
+                                            label='Não'
+                                            {...fields.education}
+                                            id='haventEducation'
+                                            value='N'
+                                        />
                                     </div>
                                 </div>
                                 <div className="col-md-6 col-sm-12">
@@ -229,14 +236,20 @@ class Resume extends Component {
                                 <div className="col-sm-12">
                                     <div className="form-group">
                                         <label className='d-block'>Possui experiência profissional? *</label>
-                                        <div className="form-check form-check-inline">
-                                            <input className="form-check-input" name='experience' type="radio" id="haveExperience" value="Y" {...fields.experience} />
-                                            <label className="form-check-label" htmlFor="haveExperience">Sim</label>
-                                        </div>
-                                        <div className="form-check form-check-inline">
-                                            <input className="form-check-input" name='experience' type="radio" id="haventExperience" value="N" {...fields.experience} />
-                                            <label className="form-check-label" htmlFor="haventExperience">Não</label>
-                                        </div>
+                                        <Input
+                                            type='radio'
+                                            label='Sim'
+                                            {...fields.experience}
+                                            id='haveExperience'
+                                            value='Y'
+                                        />
+                                        <Input
+                                            type='radio'
+                                            label='Não'
+                                            {...fields.experience}
+                                            id='haventExperience'
+                                            value='N'
+                                        />
                                     </div>
                                 </div>
 
@@ -311,14 +324,20 @@ class Resume extends Component {
                                 <div className="col-sm-12">
                                     <div className="form-group">
                                         <label className='d-block'>Você tem conquistas como cursos, certificados e reconhecimentos?</label>
-                                        <div className="form-check form-check-inline">
-                                            <input className="form-check-input" name='achievements' type="radio" id="haveAchievements" value="Y" {...fields.achievements} />
-                                            <label className="form-check-label" htmlFor="haveAchievements">Sim</label>
-                                        </div>
-                                        <div className="form-check form-check-inline">
-                                            <input className="form-check-input" name='achievements' type="radio" id="haventAchievements" value="N" {...fields.achievements} />
-                                            <label className="form-check-label" htmlFor="haventAchievements">Não</label>
-                                        </div>
+                                        <Input
+                                            type='radio'
+                                            label='Sim'
+                                            {...fields.achievements}
+                                            id='haveAchievements'
+                                            value='Y'
+                                        />
+                                        <Input
+                                            type='radio'
+                                            label='Não'
+                                            {...fields.achievements}
+                                            id='haventAchievements'
+                                            value='N'
+                                        />
                                     </div>
                                 </div>
 

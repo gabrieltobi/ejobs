@@ -26,7 +26,9 @@ export function Form(WrappedComponent, fields) {
         }
 
         Object.defineProperty(stateValues, field, {
-          get: () => this.state.fields[field].value
+          get: () => this.state.fields[field].value,
+          enumerable: true,
+          configurable: true
         })
       })
 

@@ -1,32 +1,21 @@
 import React, { Component } from 'react'
-import firebase from 'firebase'
-import { AppConsumer } from '../../views/app/app'
+import { connectToApp } from '../connectToApp/connectToApp'
+import { Redirect, Route } from 'react-router-dom'
 
-export function privateRoute(WrappedComponent) {
-    return class extends Component {
-        static displayName = `PublicRoute(${getDisplayName(WrappedComponent)})`
+class PrivateRoute extends Component {
+    render() {
+        const { userLoaded, user, component } = this.props
 
-        componentDidMount() {
-            firebase.auth().onAuthStateChanged(user => {
-                if (!user) {
-                    this.props.history.push('/acesso')
-                }
-            })
+        if (!userLoaded) {
+            return null
         }
 
-        render() {
-            return (
-                <AppConsumer>
-                    {(globalState) => {
-                        const { user } = globalState
-                        return user ? <WrappedComponent {...this.props} {...globalState} /> : null
-                    }}
-                </AppConsumer>
-            )
-        }
+        return <Route {...this.props} component={user ? component : RedirectComponent} />
     }
 }
 
-function getDisplayName(WrappedComponent) {
-    return WrappedComponent.displayName || WrappedComponent.name || 'Component'
+export default connectToApp(PrivateRoute)
+
+const RedirectComponent = () => {
+    return <Redirect to='/acesso' />
 }

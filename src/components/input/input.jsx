@@ -2,9 +2,11 @@ import './input.scss'
 
 import React, { Component } from 'react'
 import InputMask from 'react-input-mask'
-import Checkbox from '../checkbox/checkbox'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+import Checkbox from '../checkbox/checkbox'
+import Radio from '../radio/radio'
+
 
 class Input extends Component {
     render() {
@@ -22,6 +24,8 @@ class Input extends Component {
 
         if (type === 'checkbox') {
             return <Checkbox {...this.props} />
+        } else if (type === 'radio') {
+            return <Radio {...this.props} />
         }
 
         return (
