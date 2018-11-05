@@ -21,7 +21,12 @@ class Jobs extends Component {
             jobs: []
         }
 
-        firebaseDb.collection(COLLECTIONS.JOBS)
+        let fire = firebaseDb.collection(COLLECTIONS.JOBS)
+
+        if (true){
+            fire.where('place','==','Vacaria')
+        }
+            fire.where('sector','==','Compras')
             .get()
             .then(data => {
                 this.setState({ jobs: data.docs.map(job => {
