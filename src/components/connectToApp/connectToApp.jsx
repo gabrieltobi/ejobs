@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { AppConsumer } from '../../views/app/app'
 
-export function publicRoute(WrappedComponent) {
+export function connectToApp(WrappedComponent) {
     return class extends Component {
-        static displayName = `PublicRoute(${getDisplayName(WrappedComponent)})`
+        static displayName = `ConnectToApp(${getDisplayName(WrappedComponent)})`
 
         render() {
             return (

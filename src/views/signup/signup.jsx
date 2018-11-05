@@ -22,8 +22,7 @@ class SignUp extends Component {
         super(props)
 
         this.state = {
-            formWasValidated: false,
-            applicantMode: (props.match.params.mode === 'candidato')
+            formWasValidated: false
         }
     }
 
@@ -32,6 +31,11 @@ class SignUp extends Component {
         { tab: 'Candidato', mode: 'candidato' },
         { tab: 'Empresa', mode: 'empresa' }
     ]
+
+    isApplicantMode = () => {
+        const { match } = this.props
+        return (match.params.mode === 'candidato')
+    }
 
     cpfValidation = (evt) => {
         const {
@@ -120,6 +124,7 @@ class SignUp extends Component {
     }
 
     onSubmit = (event) => {
+        const { setLoading } = this.props
         event.preventDefault()
 
         const form = event.target
@@ -128,6 +133,7 @@ class SignUp extends Component {
             return this.setState({ formWasValidated: true })
         }
 
+        setLoading(true)
         this.checkRecaptcha()
     }
 
@@ -139,32 +145,33 @@ class SignUp extends Component {
                 tosAcceptance,
                 ...userData
             },
-            history
+            history,
+            setLoading
         } = this.props
-        const { applicantMode } = this.state
 
         firebase.auth()
             .createUserWithEmailAndPassword(userData.email, password)
-            .then(firebaseUserData => {
-                const uid = firebaseUserData.user.uid
-                const now = Date.now()
-
-                userData.document = getNumbersOnly(userData.document)
-                userData.creationDate = now
-                userData.tosAcceptanceDate = now
-
-                firebaseDb.collection(applicantMode ? COLLECTIONS.PEOPLE : COLLECTIONS.COMPANIES)
-                    .doc(uid)
-                    .set(userData, { merge: true })
-                    .then(() => {
-                        if (applicantMode) {
-                            history.push('/curriculo')
-                        } else {
-                            history.push('/')
-                        }
-                    })
-            })
+            .then(this.createPerson)
             .catch(error => toast.error(error.message))
+            .finally(() => setLoading())
+    }
+
+    createPerson = (userCredential) => {
+        const uid = userCredential.user.uid
+        const now = Date.now()
+
+        userData.document = getNumbersOnly(userData.document)
+        userData.creationDate = now
+        userData.tosAcceptanceDate = now
+        userData.isCompany = !this.isApplicantMode()
+
+        return firebaseDb.collection(COLLECTIONS.PEOPLE)
+            .doc(uid)
+            .set(userData, { merge: true })
+            .then(() => {
+                history.push(this.isApplicantMode() ? '/curriculo' : '/')
+                return Promise.resolve()
+            })
     }
 
     renderTab = (tab) => {
@@ -172,7 +179,7 @@ class SignUp extends Component {
 
         return (
             <li key={tab.mode} className='nav-item'>
-                <a className={`nav-link${((tab.mode === mode) ? ' active' : '')}`} href={tab.mode}>{tab.tab}</a>
+                <Link className={`nav-link${((tab.mode === mode) ? ' active' : '')}`} to={tab.mode}>{tab.tab}</Link>
             </li>
         )
     }
@@ -183,8 +190,7 @@ class SignUp extends Component {
         } = this.props
 
         const {
-            formWasValidated,
-            applicantMode
+            formWasValidated
         } = this.state
 
         return (
@@ -229,7 +235,7 @@ class SignUp extends Component {
                         /> */}
 
                             {
-                                !applicantMode &&
+                                !this.isApplicantMode() &&
                                 <React.Fragment>
                                     <Input
                                         type='tel'
@@ -304,7 +310,7 @@ class SignUp extends Component {
                         </button>
 
                         {
-                            applicantMode &&
+                            this.isApplicantMode() &&
                             <React.Fragment>
                                 <span className='d-block my-3'>ou</span>
 

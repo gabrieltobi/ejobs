@@ -33,7 +33,6 @@ class Opportunity extends Component {
             isPerson,
             date
         } = this.props
-        console.log(this)
 
         return (
             <div className='opportunity card border mr-3 mb-3'>

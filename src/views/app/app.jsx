@@ -2,22 +2,34 @@ import React, { Component } from 'react'
 import { ToastContainer } from 'react-toastify'
 import firebase from 'firebase'
 import Loading from '../../components/loading/loading'
+import { COLLECTIONS, firebaseDb } from '../../config/firebase'
 
 const Context = React.createContext()
 
 export class AppProvider extends Component {
     state = {
         loading: false,
-        user: undefined
+        user: null,
+        person: null,
+        userLoaded: false
     }
 
     componentWillMount() {
         this.setLoading(true)
 
         firebase.auth().onAuthStateChanged(user => {
-            console.log(user)
-            this.setState({ user })
+            this.setState({ user, userLoaded: true })
             this.setLoading()
+
+            if (user) {
+                firebaseDb.doc(`${COLLECTIONS.PEOPLE}/${user.uid}`)
+                    .get()
+                    .then(doc => {
+                        if (doc.exists) {
+                            this.setState({ person: doc.data() })
+                        }
+                    })
+            }
         });
     }
 
@@ -28,15 +40,12 @@ export class AppProvider extends Component {
 
     render() {
         const { children } = this.props
-
-        const {
-            loading
-        } = this.state
+        const { loading, ...state } = this.state
 
         return (
             <Context.Provider value={{
-                setLoading: this.setLoading,
-                user: this.state.user
+                ...state,
+                setLoading: this.setLoading
             }}>
                 {children}
 

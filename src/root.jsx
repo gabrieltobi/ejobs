@@ -11,22 +11,23 @@ import SignUp from './views/signup/signup'
 import Jobs from './views/jobs/jobs'
 import MyJobs from './views/myJobs/myJobs'
 import Resume from './views/resume/resume'
-import { publicRoute } from './components/publicRoute/publicRoute'
+import { connectToApp } from './components/connectToApp/connectToApp'
 import { AppProvider } from './views/app/app'
-import { privateRoute } from './components/privateRoute/privateRoute'
+import PrivateRoute from './components/privateRoute/privateRoute'
 
 class Root extends Component {
     render() {
         return (
             <Router>
                 <AppProvider>
-                    <Route path="/acesso" component={publicRoute(SignIn)} />
-                    <Route path="/cadastro/:mode(candidato|empresa)" component={publicRoute(SignUp)} />
+                    <Route exact path='/' component={connectToApp(Home)} />
 
-                    <Route exact path='/' component={publicRoute(Home)} />
-                    <Route path="/jobs" component={privateRoute(Jobs)} />
-                    <Route path="/myJobs" component={privateRoute(MyJobs)} />
-                    <Route path="/curriculo" component={privateRoute(Resume)} />
+                    <Route path="/acesso" component={connectToApp(SignIn)} />
+                    <Route path="/cadastro/:mode(candidato|empresa)" component={connectToApp(SignUp)} />
+
+                    <PrivateRoute path="/jobs" component={Jobs} />
+                    <PrivateRoute path="/myJobs" component={MyJobs} />
+                    <PrivateRoute path="/curriculo" component={Resume} />
                 </AppProvider>
             </Router>
         )
