@@ -15,9 +15,12 @@ class Opportunity extends Component {
 
     runFor = () => {
         
-        firebaseDb.collection(COLLECTIONS.JOBS_PEOPLE)
+        firebaseDb.collection(COLLECTIONS.PEOPLE)
             .doc(firebase.auth().currentUser.uid)
-            .set({job: this.props.id}, { merge: true })
+            .set({jobs:{
+                 [this.props.id]:true}
+                }
+                 , { merge: true })
             .then(() => {
                 toast.success('Candidatura realizada com sucesso!')
             })
