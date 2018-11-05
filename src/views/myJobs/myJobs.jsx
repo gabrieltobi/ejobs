@@ -17,33 +17,30 @@ class MyJobs extends Component {
         this.state = {
             myJobs: []
         }
-
-        /*firebaseDb.collection(COLLECTIONS.JOBS)
-            .get()
-            .then(data => {
-                this.setState({ myJobs: data.docs.map(myJob => myJob.data()) })
-            })*/
-
+        console.error(props)
         firebase.auth().onAuthStateChanged(currentUser => {
             firebaseDb.collection(COLLECTIONS.PEOPLE)
                 .doc(currentUser.uid)
-                .get()
-                .then(doc => {
+                .onSnapshot(doc => {
+                    console.warn(doc);
                     if (doc.exists) {
                         console.log(doc.data())
                         const person = doc.data();
                         const jobs = person.jobs;
+                        this.setState({
+                            myJobs: []
+                        });
 
                         Object.keys(jobs).map(job => {
                             firebaseDb.collection(COLLECTIONS.JOBS)
                                 .doc(job)
-                                .get()
-                                .then(data => {
-                                    console.log(data.data())
+                                .onSnapshot(data => {
+                                    let job2 = data.data();
+                                    job2.id = data.id;
                                     this.setState({
                                         myJobs: [
                                             ...this.state.myJobs,
-                                            data.data()
+                                            job2
                                         ]
                                     })
                                 })
@@ -77,7 +74,7 @@ class MyJobs extends Component {
 
                     <div className='d-flex flex-wrap'>
                         {this.state.myJobs.map(opportunity => {
-                            return <Opportunity key={opportunity.id} {...opportunity} />
+                            return <Opportunity key={opportunity.id} {...opportunity} applied={true} />
                         })}
                     </div>
                 </div>

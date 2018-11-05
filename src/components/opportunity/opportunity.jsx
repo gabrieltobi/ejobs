@@ -14,17 +14,51 @@ class Opportunity extends Component {
 
 
     runFor = () => {
-        
+
+        const { applied } = this.props;
+
+        if (applied) {
+            this.unapply();
+        }
+        else {
+            this.apply();
+        }
+    }
+
+    apply = () => {
+
         firebaseDb.collection(COLLECTIONS.PEOPLE)
             .doc(firebase.auth().currentUser.uid)
-            .set({jobs:{
-                 [this.props.id]:true}
+            .set({
+                jobs: {
+                    [this.props.id]: true
                 }
-                 , { merge: true })
+            }
+                , { merge: true })
             .then(() => {
                 toast.success('Candidatura realizada com sucesso!')
             })
-      }
+    }
+
+    unapply = () => {
+
+        firebaseDb.collection(COLLECTIONS.PEOPLE)
+            .doc(firebase.auth().currentUser.uid)
+            .get()
+            .then((data) => {
+                let person = data.data();
+                const { [this.props.id]: a, ...jobs } = person.jobs
+                person.jobs = jobs
+                firebaseDb.collection(COLLECTIONS.PEOPLE)
+                    .doc(firebase.auth().currentUser.uid)
+                    .set(person)
+                    .then(() => {
+                        toast.success('Candidatura removida com sucesso!')
+                    })
+            })
+
+
+    }
 
     render() {
         const {
@@ -33,7 +67,7 @@ class Opportunity extends Component {
             role,
             type,
             place,
-            isPerson,
+            applied,
             date
         } = this.props
 
@@ -61,8 +95,8 @@ class Opportunity extends Component {
                             {format(date, 'DD/MM/YYYY')}
                         </div>
                     }
-                    <button onClick={this.runFor} className='btn btn-primary mt-3'>
-                        {isPerson ? 'Contatar' : 'Candidatar'}
+                    <button onClick={this.runFor} className={`btn mt-3 ${applied ? 'btn-danger' : 'btn-primary'}`}>
+                        {applied ? 'Cancelar Inscrição' : 'Candidatar'}
                     </button>
                 </div>
             </div>
