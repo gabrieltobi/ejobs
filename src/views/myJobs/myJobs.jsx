@@ -1,6 +1,7 @@
 import './myJobs.scss'
 
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 import Opportunity from '../../components/opportunity/opportunity'
 import Nav from '../../components/nav/nav'
@@ -51,14 +52,20 @@ class MyJobs extends Component {
     }
 
     render() {
+        const { person } = this.props
         const { myJobs } = this.state
         console.log(myJobs) // <- O que o firebase retornou
         return (
             <React.Fragment>
                 <Nav />
                 <div className='page-jobs p-3 pt-4'>
-                    <div className='mb-4'>
+                    <div className='mb-4 d-flex justify-content-between'>
                         <h3>Vagas</h3>
+
+                        {
+                            person.isCompany &&
+                            <Link to='/jobEdit' className="btn btn-primary">Adicionar Vaga</Link>
+                        }
                     </div>
 
                     <div className='filters'>

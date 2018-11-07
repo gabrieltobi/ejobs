@@ -14,7 +14,7 @@ class NavUser extends Component {
     }
 
     render() {
-        const person = this.props.person || {}
+        const { person } = this.props
 
         return (
             <div className='actions d-flex justify-content-between align-items-center'>
@@ -23,10 +23,13 @@ class NavUser extends Component {
                         <FontAwesomeIcon icon={faBriefcase} className='mr-2' />
                         Minhas Vagas
                     </Link>
-                    <Link to='/jobs' className='btn btn-link'>
-                        <FontAwesomeIcon icon={faChartLine} className='mr-2' />
-                        Oportunidades
-                    </Link>
+                    {
+                        !person.isCompany &&
+                        <Link to='/jobs' className='btn btn-link'>
+                            <FontAwesomeIcon icon={faChartLine} className='mr-2' />
+                            Oportunidades
+                        </Link>
+                    }
                 </div>
 
                 <div className='group'>

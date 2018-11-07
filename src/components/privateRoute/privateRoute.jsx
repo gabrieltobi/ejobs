@@ -3,14 +3,19 @@ import { connectToApp } from '../connectToApp/connectToApp'
 import { Redirect, Route } from 'react-router-dom'
 
 class PrivateRoute extends Component {
+    constructor(props) {
+        super(props)
+        this.component = connectToApp(props.component)
+    }
+
     render() {
-        const { userLoaded, user, component } = this.props
+        const { userLoaded, user } = this.props
 
         if (!userLoaded) {
             return null
         }
 
-        return <Route {...this.props} component={user ? component : RedirectComponent} />
+        return <Route {...this.props} component={user ? this.component : RedirectComponent} />
     }
 }
 
