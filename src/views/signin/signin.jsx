@@ -123,7 +123,7 @@ class SignIn extends Component {
                         Acessar Conta
                     </button>
 
-                    <span className='d-block my-3'>ou</span>
+                    {/* <span className='d-block my-3'>ou</span>
 
                     <button type='button' className='btn btn-secondary btn-block mb-3' onClick={this.facebookLogin}>
                         <FontAwesomeIcon icon={faFacebookF} className='mr-3' />
@@ -133,7 +133,7 @@ class SignIn extends Component {
                     <button type='button' className='btn btn-secondary btn-block'>
                         <FontAwesomeIcon icon={faLinkedinIn} className='mr-3' />
                         Acessar Com LinkedIn
-                    </button>
+                    </button> */}
                 </form>
 
                 <h5>Não possui uma conta?</h5>

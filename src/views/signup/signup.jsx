@@ -310,7 +310,7 @@ class SignUp extends Component {
                         </button>
 
                         {
-                            this.isApplicantMode() &&
+                            false && this.isApplicantMode() &&
                             <React.Fragment>
                                 <span className='d-block my-3'>ou</span>
 
