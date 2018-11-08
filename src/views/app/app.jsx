@@ -10,32 +10,45 @@ export class AppProvider extends Component {
     state = {
         loading: false,
         user: null,
-        person: null,
+        person: {},
         userLoaded: false
     }
 
-    componentWillMount() {
+    unsubscribeList = []
+    loadingCounter = 0
+
+    componentDidMount() {
         this.setLoading(true)
 
-        firebase.auth().onAuthStateChanged(user => {
+        const authUnsubscriber = firebase.auth().onAuthStateChanged(user => {
             this.setState({ user, userLoaded: true })
             this.setLoading()
 
             if (user) {
-                firebaseDb.doc(`${COLLECTIONS.PEOPLE}/${user.uid}`)
-                    .get()
-                    .then(doc => {
-                        if (doc.exists) {
-                            this.setState({ person: doc.data() })
-                        }
+                const personUnsubscriber = firebaseDb
+                    .doc(`${COLLECTIONS.PEOPLE}/${user.uid}`)
+                    .onSnapshot(doc => {
+                        this.setState({ person: (doc.exists ? doc.data() : {}) })
                     })
+                this.unsubscribeList.push(personUnsubscriber)
             }
         });
+        this.unsubscribeList.push(authUnsubscriber)
+    }
+
+    componentWillUnmount() {
+        this.unsubscribeList.map(unsubscriber => unsubscriber())
     }
 
     setLoading = (loading) => {
-        this.setState({ loading })
-        document.body.style.overflow = (loading ? 'hidden' : '')
+        if (loading) {
+            this.loadingCounter++
+        } else if (this.loadingCounter > 0) {
+            this.loadingCounter--
+        }
+
+        this.setState({ loading: !!this.loadingCounter })
+        document.body.style.overflow = (this.loadingCounter ? 'hidden' : '')
     }
 
     render() {

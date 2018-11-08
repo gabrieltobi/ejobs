@@ -11,6 +11,7 @@ import SignUp from './views/signup/signup'
 import Jobs from './views/jobs/jobs'
 import MyJobs from './views/myJobs/myJobs'
 import Resume from './views/resume/resume'
+import JobEdit from './views/jobEdit/jobEdit'
 import { connectToApp } from './components/connectToApp/connectToApp'
 import { AppProvider } from './views/app/app'
 import PrivateRoute from './components/privateRoute/privateRoute'
@@ -28,6 +29,7 @@ class Root extends Component {
                     <PrivateRoute path="/jobs" component={Jobs} />
                     <PrivateRoute path="/myJobs" component={MyJobs} />
                     <PrivateRoute path="/curriculo" component={Resume} />
+                    <PrivateRoute path="/jobEdit/:id?" component={JobEdit} />
                 </AppProvider>
             </Router>
         )
