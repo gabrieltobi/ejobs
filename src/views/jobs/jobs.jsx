@@ -27,30 +27,31 @@ class Jobs extends Component {
     getJobs = () => {
         let fire = firebaseDb.collection(COLLECTIONS.JOBS)
 
-       // console.error(this.props.values.jobType);
-       // console.error(this.props.values.jobLocation);
-       // console.error(this.props.values.jobArea);
+        // console.error(this.props.values.jobType);
+        // console.error(this.props.values.jobLocation);
+        // console.error(this.props.values.jobArea);
 
-        if (this.props.values.jobType){
-            fire = fire.where('hiringType','==',this.props.values.jobType)
+        if (this.props.values.jobType) {
+            fire = fire.where('hiringType', '==', this.props.values.jobType)
         }
-        if (this.props.values.jobLocation){
-            fire = fire.where('place','==',this.props.values.jobLocation)
+        if (this.props.values.jobLocation) {
+            fire = fire.where('place', '==', this.props.values.jobLocation)
         }
-        if (this.props.values.jobArea){
-            fire = fire.where('role','==',this.props.values.jobArea)
+        if (this.props.values.jobArea) {
+            fire = fire.where('role', '==', this.props.values.jobArea)
         }
-            fire.get()
+        fire.get()
             .then(data => {
                 console.log(data)
-                this.setState({ jobs: data.docs.map(job => {
-                    let job2 = job.data()
-                    job2.id = job.id
-                    //console.log(job)
-                    return job2
-                }) 
+                this.setState({
+                    jobs: data.docs.map(job => {
+                        let job2 = job.data()
+                        job2.id = job.id
+                        //console.log(job)
+                        return job2
+                    })
+                })
             })
-        })
     }
 
     render() {
@@ -87,15 +88,15 @@ class Jobs extends Component {
                             options={enumToOptions(OCUPPATION, 'Área de')}
                         />
                     </div>
-                        <div onClick={this.getJobs} className="text-right mb-3">
-                            <button type='submit' className="btn btn-primary">Pesquisar</button>
-                        </div>
+                    <div onClick={this.getMyJobs} className="text-right mb-3">
+                        <button type='submit' className="btn btn-primary">Pesquisar</button>
+                    </div>
 
                     <div className='d-flex flex-wrap'>
                         {this.state.jobs.map(opportunity => {
                             return <Opportunity key={opportunity.id} {...opportunity} />
                         })}
-                    </div>   
+                    </div>
                 </div>
             </React.Fragment>
         )
