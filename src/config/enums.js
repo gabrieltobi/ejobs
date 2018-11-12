@@ -7,6 +7,7 @@ export const WORK_PLACE = {
     BENTO: { value: 'BENTO', name: 'Bento Gonçalves' },
     CAXIAS: { value: 'CAXIAS', name: 'Caxias do Sul' },
     CURITIBA: { value: 'CURITIBA', name: 'Curitiba' },
+    FARROUPILHA: { value: 'FARROUPILHA', name: 'Farroupilha' },
     POA: { value: 'POA', name: 'Porto Alegre' },
     VACARIA: { value: 'VACARIA', name: 'Vacaria' }
 }

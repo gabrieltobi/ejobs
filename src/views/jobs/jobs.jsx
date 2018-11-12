@@ -21,26 +21,28 @@ class Jobs extends Component {
             jobs: []
         }
 
-        this.getMyJobs("1");
+        this.getJobs();
     }
 
-    getMyJobs = (a) => {
+    getJobs = () => {
         let fire = firebaseDb.collection(COLLECTIONS.JOBS)
 
-        console.error(this.props.fields);
-        console.error(a)
+       // console.error(this.props.values.jobType);
+       // console.error(this.props.values.jobLocation);
+       // console.error(this.props.values.jobArea);
 
-       /* if (this.HIRING_TYPES){
-            fire.where('hiringType','==','this.HIRING_TYPES')
+        if (this.props.values.jobType){
+            fire = fire.where('hiringType','==',this.props.values.jobType)
         }
-        if (this.WORK_PLACE){
-            fire.where('place','==','this.place')
+        if (this.props.values.jobLocation){
+            fire = fire.where('place','==',this.props.values.jobLocation)
         }
-        if (this.OCUPPATION){
-            fire.where('role','==','this.HIRING_TYPES')
-        }*/
+        if (this.props.values.jobArea){
+            fire = fire.where('role','==',this.props.values.jobArea)
+        }
             fire.get()
             .then(data => {
+                console.log(data)
                 this.setState({ jobs: data.docs.map(job => {
                     let job2 = job.data()
                     job2.id = job.id
@@ -53,6 +55,7 @@ class Jobs extends Component {
 
     render() {
         const { jobs } = this.state
+        const { fields } = this.props
         //console.log(jobs) // <- O que o firebase retornou
 
         return (
@@ -81,10 +84,10 @@ class Jobs extends Component {
                         <Select
                             title='Escolha uma área'
                             {...fields.jobArea}
-                            options={enumToOptions(OCUPPATION, 'Local de Trabalho')}
+                            options={enumToOptions(OCUPPATION, 'Área de')}
                         />
                     </div>
-                        <div onClick={this.getMyJobs} className="text-right mb-3">
+                        <div onClick={this.getJobs} className="text-right mb-3">
                             <button type='submit' className="btn btn-primary">Pesquisar</button>
                         </div>
 
