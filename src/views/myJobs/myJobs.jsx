@@ -18,7 +18,7 @@ class MyJobs extends Component {
         this.state = {
             myJobs: []
         }
-        console.error(props)
+
         firebase.auth().onAuthStateChanged(currentUser => {
             firebaseDb.collection(COLLECTIONS.PEOPLE)
                 .doc(currentUser.uid)

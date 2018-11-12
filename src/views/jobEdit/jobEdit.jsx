@@ -8,7 +8,7 @@ import Nav from '../../components/nav/nav'
 import Select, { enumToOptions } from '../../components/select/select'
 import { Form } from '../../utils/Form'
 import { firebaseDb, COLLECTIONS } from '../../config/firebase'
-import { HIRING_TYPES, DISABILITY, WORK_PLACE } from '../../config/enums'
+import { HIRING_TYPES, DISABILITY, WORK_PLACE, OCUPPATION } from '../../config/enums'
 import Input from '../../components/input/input'
 import Textarea from '../../components/textarea/textarea'
 
@@ -73,14 +73,16 @@ class JobEdit extends Component {
                             <div className="row">
                                 <div className="col-sm-12">
                                     <Input
-                                        label='Área'
-                                        {...fields.sector}
+                                        label='Vaga'
+                                        {...fields.role}
                                     />
                                 </div>
                                 <div className="col-md-6 col-sm-12">
-                                    <Input
-                                        label='Vaga'
-                                        {...fields.role}
+                                    <Select
+                                        title='Escolha uma Área de Atuação'
+                                        label='Área de Atuação'
+                                        {...fields.sector}
+                                        options={enumToOptions(OCUPPATION, 'Selecione...')}
                                     />
                                 </div>
                                 <div className="col-md-6 col-sm-12">
