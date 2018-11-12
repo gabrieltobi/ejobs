@@ -145,18 +145,18 @@ class SignUp extends Component {
                 tosAcceptance,
                 ...userData
             },
-            history,
             setLoading
         } = this.props
 
         firebase.auth()
             .createUserWithEmailAndPassword(userData.email, password)
-            .then(this.createPerson)
+            .then(userCredential => this.createPerson(userCredential, userData))
             .catch(error => toast.error(error.message))
             .finally(() => setLoading())
     }
 
-    createPerson = (userCredential) => {
+    createPerson = (userCredential, userData) => {
+        const { history } = this.props
         const uid = userCredential.user.uid
         const now = Date.now()
 
