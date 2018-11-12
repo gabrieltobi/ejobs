@@ -9,38 +9,41 @@ class PrivateRoute extends Component {
     }
 
     render() {
-        const { userLoaded, personLoaded, person, user, companyOnly, personOnly } = this.props
+        const { userLoaded, personLoaded, person, user, companyOnly, personOnly, path, exact } = this.props
 
-        if (!userLoaded) {
-            return null
-        }
-
-        if (user) {
-            if (companyOnly || personOnly) {
-                if (!personLoaded) {
-                    return null
-                }
-
-                if (companyOnly) {
-                    if (!person.isCompany) {
-                        this.component = getRedirectComponent('/')
-                    }
-                } else if (personOnly) {
-                    if (person.isCompany) {
-                        this.component = getRedirectComponent('/')
-                    }
-                }
+        return <Route path={path} exact={exact} render={() => {
+            if (!userLoaded) {
+                return null
             }
-        } else {
-            this.component = getRedirectComponent('/acesso')
-        }
 
-        return <Route {...this.props} component={this.component} />
+            if (user) {
+                if (companyOnly || personOnly) {
+                    if (!personLoaded) {
+                        return null
+                    }
+
+                    if (companyOnly) {
+                        if (!person.isCompany) {
+                            return getRedirectComponent('/')
+                        }
+                    } else if (personOnly) {
+                        if (person.isCompany) {
+                            return getRedirectComponent('/')
+                        }
+                    }
+                }
+            } else {
+                return getRedirectComponent('/acesso')
+            }
+
+            const Comp = this.component
+            return <Comp />
+        }} />
     }
 }
 
 export default connectToApp(PrivateRoute)
 
 function getRedirectComponent(to) {
-    return () => <Redirect to={to} />
+    return <Redirect to={to} />
 }

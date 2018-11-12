@@ -69,8 +69,7 @@ class MyJobs extends Component {
 
     render() {
         const { person } = this.props
-        const { myJobs } = this.state
-        console.log(myJobs) // <- O que o firebase retornou
+        
         return (
             <React.Fragment>
                 <Nav />
