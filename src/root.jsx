@@ -5,6 +5,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'react-toastify/dist/ReactToastify.css'
 import './master.scss'
 
+import PrivateRoute from './components/privateRoute/privateRoute'
+import { connectToApp } from './components/connectToApp/connectToApp'
+
+import { AppProvider } from './views/app/app'
 import Home from './views/home/home'
 import SignIn from './views/signin/signin'
 import SignUp from './views/signup/signup'
@@ -12,9 +16,7 @@ import Jobs from './views/jobs/jobs'
 import MyJobs from './views/myJobs/myJobs'
 import Resume from './views/resume/resume'
 import JobEdit from './views/jobEdit/jobEdit'
-import { connectToApp } from './components/connectToApp/connectToApp'
-import { AppProvider } from './views/app/app'
-import PrivateRoute from './components/privateRoute/privateRoute'
+import Job from './views/job/job'
 
 class Root extends Component {
     render() {
@@ -26,10 +28,11 @@ class Root extends Component {
                     <Route path="/acesso" component={connectToApp(SignIn)} />
                     <Route path="/cadastro/:mode(candidato|empresa)" component={connectToApp(SignUp)} />
 
-                    <PrivateRoute path="/jobs" component={Jobs} />
+                    <PrivateRoute path="/jobs" component={Jobs} personOnly />
                     <PrivateRoute path="/myJobs" component={MyJobs} />
-                    <PrivateRoute path="/curriculo" component={Resume} />
-                    <PrivateRoute path="/jobEdit/:id?" component={JobEdit} />
+                    <PrivateRoute path="/curriculo" component={Resume} personOnly />
+                    <PrivateRoute path="/jobEdit/:id?" component={JobEdit} companyOnly />
+                    <PrivateRoute path="/job/:id" component={Job} />
                 </AppProvider>
             </Router>
         )

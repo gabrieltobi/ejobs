@@ -9,18 +9,38 @@ class PrivateRoute extends Component {
     }
 
     render() {
-        const { userLoaded, user } = this.props
+        const { userLoaded, personLoaded, person, user, companyOnly, personOnly } = this.props
 
         if (!userLoaded) {
             return null
         }
 
-        return <Route {...this.props} component={user ? this.component : RedirectComponent} />
+        if (user) {
+            if (companyOnly || personOnly) {
+                if (!personLoaded) {
+                    return null
+                }
+
+                if (companyOnly) {
+                    if (!person.isCompany) {
+                        this.component = getRedirectComponent('/')
+                    }
+                } else if (personOnly) {
+                    if (person.isCompany) {
+                        this.component = getRedirectComponent('/')
+                    }
+                }
+            }
+        } else {
+            this.component = getRedirectComponent('/acesso')
+        }
+
+        return <Route {...this.props} component={this.component} />
     }
 }
 
 export default connectToApp(PrivateRoute)
 
-const RedirectComponent = () => {
-    return <Redirect to='/acesso' />
+function getRedirectComponent(to) {
+    return () => <Redirect to={to} />
 }

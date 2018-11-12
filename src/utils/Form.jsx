@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-export function Form(WrappedComponent, fields) {
+export function Form(WrappedComponent, fields, defaultValues = {}) {
   return class extends React.Component {
     state = {
       fields: {},
@@ -17,7 +17,7 @@ export function Form(WrappedComponent, fields) {
           id: field,
           name: field,
           invalidFeedback: null,
-          value: ''
+          value: defaultValues[field] || ''
         }
 
         stateFields = {
@@ -40,8 +40,14 @@ export function Form(WrappedComponent, fields) {
 
     handleInputChange = (event) => {
       const target = event.target
-      const value = ((target.type === 'checkbox') ? target.checked : target.value)
       const name = target.name
+
+      let value = ''
+      if (target.multiple) {
+        value = [...target.options].filter(o => o.selected).map(o => o.value)
+      } else {
+        value = ((target.type === 'checkbox') ? target.checked : target.value)
+      }
 
       this.setValueToField(name, value)
     }

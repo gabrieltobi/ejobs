@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import firebase from 'firebase'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBriefcase, faChartLine, faEnvelope } from '@fortawesome/free-solid-svg-icons'
+import { faBriefcase, faChartLine, faEnvelope, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 
 import userNoPhoto from '../../../images/user-no-photo.jpg'
 
@@ -41,9 +41,12 @@ class NavUser extends Component {
                     <img
                         className='user-img rounded-circle'
                         src={person.photo || userNoPhoto}
-                        alt='Foto do Usuário'
-                        onClick={this.logout}
+                        alt='Sua Foto'
                     />
+
+                    <Link to='/' className='btn btn-link' onClick={this.logout}>
+                        <FontAwesomeIcon icon={faSignOutAlt} />
+                    </Link>
                 </div>
             </div >
         )
