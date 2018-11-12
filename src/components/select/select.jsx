@@ -43,7 +43,7 @@ export default Select
 export const enumToOptions = (enumeration, empty) => {
     const renderOption = (key) => {
         const option = enumeration[key]
-
+        //console.log(option.value)
         return (
             <option key={option.value} value={option.value}>
                 {option.name}

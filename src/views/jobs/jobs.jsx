@@ -21,13 +21,25 @@ class Jobs extends Component {
             jobs: []
         }
 
+        this.getMyJobs("1");
+    }
+
+    getMyJobs = (a) => {
         let fire = firebaseDb.collection(COLLECTIONS.JOBS)
 
-        if (true){
-            fire.where('place','==','Vacaria')
+        console.error(this.props.fields);
+        console.error(a)
+
+       /* if (this.HIRING_TYPES){
+            fire.where('hiringType','==','this.HIRING_TYPES')
         }
-            fire.where('sector','==','Compras')
-            .get()
+        if (this.WORK_PLACE){
+            fire.where('place','==','this.place')
+        }
+        if (this.OCUPPATION){
+            fire.where('role','==','this.HIRING_TYPES')
+        }*/
+            fire.get()
             .then(data => {
                 this.setState({ jobs: data.docs.map(job => {
                     let job2 = job.data()
@@ -41,7 +53,7 @@ class Jobs extends Component {
 
     render() {
         const { jobs } = this.state
-        console.log(jobs) // <- O que o firebase retornou
+        //console.log(jobs) // <- O que o firebase retornou
 
         return (
             <React.Fragment>
@@ -72,6 +84,9 @@ class Jobs extends Component {
                             options={enumToOptions(OCUPPATION, 'Local de Trabalho')}
                         />
                     </div>
+                        <div onClick={this.getMyJobs} className="text-right mb-3">
+                            <button type='submit' className="btn btn-primary">Pesquisar</button>
+                        </div>
 
                     <div className='d-flex flex-wrap'>
                         {this.state.jobs.map(opportunity => {
