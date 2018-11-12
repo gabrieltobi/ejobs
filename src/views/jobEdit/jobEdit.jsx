@@ -30,7 +30,7 @@ class JobEdit extends Component {
     onSubmit = (event) => {
         event.preventDefault()
 
-        const { values, setLoading, match: { params: { id } }, match: { url }, history } = this.props
+        const { values, setLoading, match: { params: { id } }, match: { url }, history, person } = this.props
         let collection = firebaseDb.collection(COLLECTIONS.JOBS)
 
         setLoading(true)
@@ -41,8 +41,14 @@ class JobEdit extends Component {
                 .then(() => toast.success('Vaga Atualizada'))
                 .finally(() => setLoading())
         } else {
+            const job = {
+                ...values,
+                company: person.id,
+                creationDate: Date.now()
+            }
+
             collection
-                .add(values)
+                .add(job)
                 .then(doc => {
                     history.push(`${url}/${doc.id}`)
                     toast.success('Vaga Adicionada')

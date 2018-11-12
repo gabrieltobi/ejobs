@@ -12,13 +12,24 @@ import { Form } from '../../utils/Form'
 import Input from '../../components/input/input'
 
 import logo from '../../images/logo.png'
+import ForgotPasswordModal from './forgotPasswordModal/forgotPasswordModal';
 
 class SignIn extends Component {
     state = {
-        formWasValidated: false
+        formWasValidated: false,
+        modalOpen: false
     }
 
     recaptchaRef = React.createRef()
+
+    openModal = (event) => {
+        event.preventDefault()
+        this.setState({ modalOpen: true })
+    }
+
+    closeModal = () => {
+        this.setState({ modalOpen: false })
+    }
 
     facebookLogin = () => {
         firebase.auth().signInWithPopup(new firebase.auth.FacebookAuthProvider())
@@ -67,6 +78,20 @@ class SignIn extends Component {
             .finally(() => setLoading())
     }
 
+    renderModal = () => {
+        const { modalOpen } = this.state
+        const { setLoading } = this.props
+
+        if (!modalOpen) {
+            return null
+        }
+
+        return <ForgotPasswordModal
+            closeModal={this.closeModal}
+            setLoading={setLoading}
+        />
+    }
+
     render() {
         const {
             fields
@@ -105,7 +130,7 @@ class SignIn extends Component {
                             {...fields.password}
                         >
                             <span id='password-help' className='form-text text-right'>
-                                <a href='#' role='button'>
+                                <a href='#' role='button' onClick={this.openModal}>
                                     Esqueceu a senha?
                                 </a>
                             </span>
@@ -140,6 +165,8 @@ class SignIn extends Component {
                 <Link to='/cadastro/candidato'>
                     <h6>Criar conta</h6>
                 </Link>
+
+                {this.renderModal()}
             </div>
         )
     }

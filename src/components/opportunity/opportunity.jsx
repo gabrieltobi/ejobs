@@ -13,7 +13,8 @@ import { toast } from 'react-toastify';
 class Opportunity extends Component {
 
 
-    runFor = () => {
+    runFor = (event) => {
+        event.preventDefault()
 
         const { applied } = this.props;
 
@@ -26,38 +27,63 @@ class Opportunity extends Component {
     }
 
     apply = () => {
+        const jobId = this.props.id
+        const personId = this.props.user.uid
 
-        firebaseDb.collection(COLLECTIONS.PEOPLE)
-            .doc(firebase.auth().currentUser.uid)
+        const addInPerson = firebaseDb.collection(COLLECTIONS.PEOPLE)
+            .doc(personId)
             .set({
                 jobs: {
-                    [this.props.id]: true
+                    [jobId]: true
                 }
-            }
-                , { merge: true })
-            .then(() => {
-                toast.success('Candidatura realizada com sucesso!')
-            })
+            }, { merge: true })
+
+        const addInJob = firebaseDb.collection(COLLECTIONS.JOBS)
+            .doc(jobId)
+            .set({
+                people: {
+                    [personId]: true
+                }
+            }, { merge: true })
+
+        Promise.all(addInPerson, addInJob)
+            .then(() => toast.success('Candidatura realizada com sucesso!'))
     }
 
     unapply = () => {
+        const jobId = this.props.id
+        const personId = this.props.user.uid
 
-        firebaseDb.collection(COLLECTIONS.PEOPLE)
-            .doc(firebase.auth().currentUser.uid)
+        const removeFromPerson = firebaseDb.collection(COLLECTIONS.PEOPLE)
+            .doc(personId)
             .get()
             .then((data) => {
                 let person = data.data();
-                const { [this.props.id]: a, ...jobs } = person.jobs
+                const { [jobId]: removedId, ...jobs } = person.jobs
                 person.jobs = jobs
-                firebaseDb.collection(COLLECTIONS.PEOPLE)
-                    .doc(firebase.auth().currentUser.uid)
+
+                return firebaseDb.collection(COLLECTIONS.PEOPLE)
+                    .doc(personId)
                     .set(person)
-                    .then(() => {
-                        toast.success('Candidatura removida com sucesso!')
-                    })
             })
 
+        const removeFromJob = firebaseDb.collection(COLLECTIONS.JOBS)
+            .doc(personId)
+            .get()
+            .then((data) => {
+                let job = data.data();
+                const { [personId]: removedId, ...people } = job.people
+                job.people = people
 
+                return firebaseDb.collection(COLLECTIONS.JOBS)
+                    .doc(jobId)
+                    .set(job)
+            })
+
+        Promise.all(removeFromPerson, removeFromJob)
+            .then(() => {
+                toast.success('Candidatura removida com sucesso!')
+            })
     }
 
     render() {
@@ -68,11 +94,12 @@ class Opportunity extends Component {
             type,
             place,
             applied,
-            date
+            date,
+            id
         } = this.props
 
         return (
-            <div className='opportunity card border mr-3 mb-3'>
+            <Link to={`job/${id}`} className='opportunity card border mr-3 mb-3'>
                 <div className='card-img' style={{ backgroundImage: `url(${image})` }}>
                     <h5 className='bg-dark text-white card-dpt py-2 px-2'>{sector}</h5>
                 </div>
@@ -99,7 +126,7 @@ class Opportunity extends Component {
                         {applied ? 'Cancelar Inscrição' : 'Candidatar'}
                     </button>
                 </div>
-            </div>
+            </Link>
         )
     }
 }

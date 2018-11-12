@@ -11,7 +11,8 @@ export class AppProvider extends Component {
         loading: false,
         user: null,
         person: {},
-        userLoaded: false
+        userLoaded: false,
+        personLoaded: false
     }
 
     unsubscribeList = []
@@ -28,7 +29,16 @@ export class AppProvider extends Component {
                 const personUnsubscriber = firebaseDb
                     .doc(`${COLLECTIONS.PEOPLE}/${user.uid}`)
                     .onSnapshot(doc => {
-                        this.setState({ person: (doc.exists ? doc.data() : {}) })
+                        let person = {}
+
+                        if (doc.exists) {
+                            person = {
+                                ...doc.data(),
+                                id: user.uid
+                            }
+                        }
+
+                        this.setState({ person: person, personLoaded: true })
                     })
                 this.unsubscribeList.push(personUnsubscriber)
             }

@@ -14,7 +14,7 @@ class Resume extends Component {
     constructor(props) {
         super(props)
 
-        //props.setLoading(true)
+        props.setLoading(true)
         firebase.auth().onAuthStateChanged(currentUser => {
             firebaseDb.collection(COLLECTIONS.PEOPLE)
                 .doc(currentUser.uid)
@@ -24,7 +24,7 @@ class Resume extends Component {
                         props.setValues(doc.data())
                     }
                 })
-            //.finally(() => props.setLoading())
+                .finally(() => props.setLoading())
         })
     }
 
@@ -33,12 +33,12 @@ class Resume extends Component {
 
         const { values, setLoading } = this.props
 
-        //setLoading(true)
+        setLoading(true)
         firebaseDb.collection(COLLECTIONS.PEOPLE)
             .doc(firebase.auth().currentUser.uid)
             .set(values, { merge: true })
             .then(() => toast.success('Currículo Atualizado'))
-        //.finally(() => setLoading())
+            .finally(() => setLoading())
     }
 
     render() {
@@ -454,4 +454,6 @@ const fields = [
     'descriptionAchievement', 'language', 'level', 'facebook', 'linkedin', 'site'
 ]
 
-export default Form(Resume, fields)
+export default Form(Resume, fields, {
+    interestAreas: []
+})
