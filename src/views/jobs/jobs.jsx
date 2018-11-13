@@ -15,8 +15,6 @@ class Jobs extends Component {
     constructor(props) {
         super(props)
 
-        /* Em opportunities está mockado, é o que está na tela */
-        /* Em jobs é o que é buscado do firebase logo abaixo */
         this.state = {
             jobs: []
         }
@@ -25,39 +23,35 @@ class Jobs extends Component {
     }
 
     getJobs = () => {
+        
+        console.log(this.props.values.jobArea)
+
         let fire = firebaseDb.collection(COLLECTIONS.JOBS)
 
-        // console.error(this.props.values.jobType);
-        // console.error(this.props.values.jobLocation);
-        // console.error(this.props.values.jobArea);
-
-        if (this.props.values.jobType) {
-            fire = fire.where('hiringType', '==', this.props.values.jobType)
+        if (this.props.values.jobType){
+            fire = fire.where('hiringType','==',this.props.values.jobType)
         }
-        if (this.props.values.jobLocation) {
-            fire = fire.where('place', '==', this.props.values.jobLocation)
+        if (this.props.values.jobLocation){
+            fire = fire.where('place','==',this.props.values.jobLocation)
         }
-        if (this.props.values.jobArea) {
-            fire = fire.where('role', '==', this.props.values.jobArea)
+        if (this.props.values.jobArea){
+            fire = fire.where('sector','==',this.props.values.jobArea)
         }
-        fire.get()
+            fire.get()
             .then(data => {
-                console.log(data)
-                this.setState({
-                    jobs: data.docs.map(job => {
-                        let job2 = job.data()
-                        job2.id = job.id
-                        //console.log(job)
-                        return job2
-                    })
-                })
+                //Sconsole.log(data)
+                this.setState({ jobs: data.docs.map(job => {
+                    let job2 = job.data()
+                    job2.id = job.id
+                    return job2
+                }) 
             })
+        })
     }
 
     render() {
         const { jobs } = this.state
         const { fields } = this.props
-        //console.log(jobs) // <- O que o firebase retornou
 
         return (
             <React.Fragment>
@@ -85,18 +79,18 @@ class Jobs extends Component {
                         <Select
                             title='Escolha uma área'
                             {...fields.jobArea}
-                            options={enumToOptions(OCUPPATION, 'Área de')}
+                            options={enumToOptions(OCUPPATION, 'Área de Atuação')}
                         />
                     </div>
-                    <div onClick={this.getMyJobs} className="text-right mb-3">
-                        <button type='submit' className="btn btn-primary">Pesquisar</button>
-                    </div>
+                        <div onClick={this.getJobs} className="text-right mb-3">
+                            <button type='submit' className="btn btn-primary">Pesquisar</button>
+                        </div>
 
                     <div className='d-flex flex-wrap'>
                         {this.state.jobs.map(opportunity => {
                             return <Opportunity key={opportunity.id} {...opportunity} />
                         })}
-                    </div>
+                    </div>   
                 </div>
             </React.Fragment>
         )

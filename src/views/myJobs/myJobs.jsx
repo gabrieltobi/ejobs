@@ -26,6 +26,7 @@ class MyJobs extends Component {
     }
 
     getMyJobs = () => {
+
         firebase.auth().onAuthStateChanged(currentUser => {
             firebaseDb.collection(COLLECTIONS.PEOPLE)
                 .doc(currentUser.uid)
@@ -37,9 +38,10 @@ class MyJobs extends Component {
                             myJobs: []
                         });
 
-                        Object.keys(jobs).map(job => {
+                        console.log(this.props.person.isCompany)
+                        let fire = firebaseDb.collection(COLLECTIONS.JOBS)
 
-                            let fire = firebaseDb.collection(COLLECTIONS.JOBS)
+                        if (this.props.person.isCompany) {
 
                             if (this.props.values.jobType) {
                                 fire = fire.where('hiringType', '==', this.props.values.jobType)
@@ -48,20 +50,47 @@ class MyJobs extends Component {
                                 fire = fire.where('place', '==', this.props.values.jobLocation)
                             }
                             if (this.props.values.jobArea) {
-                                fire = fire.where('role', '==', this.props.values.jobArea)
+                                fire = fire.where('sector', '==', this.props.values.jobArea)
                             }
-                            fire.doc(job)
-                                .onSnapshot(data => {
-                                    let job2 = data.data();
-                                    job2.id = data.id;
+
+                            fire = fire.where('company', '==', this.props.person.id)
+
+                            fire.onSnapshot(data => {
                                     this.setState({
-                                        myJobs: [
-                                            ...this.state.myJobs,
-                                            job2
-                                        ]
+                                        myJobs: data.docs.map(job => {
+                                            let job2 = job.data()
+                                            job2.id = job.id
+                                            return job2
+                                        })
                                     })
                                 })
-                        })
+                        }
+                        else {
+                            Object.keys(jobs || {}).map(job => {
+
+                                if (this.props.values.jobType) {
+                                    fire = fire.where('hiringType', '==', this.props.values.jobType)
+                                }
+                                if (this.props.values.jobLocation) {
+                                    fire = fire.where('place', '==', this.props.values.jobLocation)
+                                }
+                                if (this.props.values.jobArea) {
+                                    fire = fire.where('sector', '==', this.props.values.jobArea)
+                                }
+                                console.warn(fire)
+                                fire.doc(job)
+                                    .onSnapshot(data => {
+                                        let job2 = data.data();
+                                        job2.id = data.id;
+                                        this.setState({
+                                            myJobs: [
+                                                ...this.state.myJobs,
+                                                job2
+                                            ]
+                                        })
+                                    })
+                            })
+                        }
                     }
                 })
         })
@@ -100,7 +129,7 @@ class MyJobs extends Component {
                         <Select
                             title='Escolha uma área'
                             {...fields.jobArea}
-                            options={enumToOptions(OCUPPATION, 'Área de')}
+                            options={enumToOptions(OCUPPATION, 'Área de Atuação')}
                         />
                     </div>
                     <div onClick={this.getMyJobs} className="text-right mb-3">
