@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connectToApp } from '../connectToApp/connectToApp'
-import { Redirect, Route } from 'react-router-dom'
+import { Redirect, Route, withRouter } from 'react-router-dom'
 
 class PrivateRoute extends Component {
     constructor(props) {
         super(props)
-        this.component = connectToApp(props.component)
+        this.component = withRouter(connectToApp(props.component))
     }
 
     render() {
@@ -17,11 +17,11 @@ class PrivateRoute extends Component {
             }
 
             if (user) {
-                if (companyOnly || personOnly) {
-                    if (!personLoaded) {
-                        return null
-                    }
+                if (!personLoaded) {
+                    return null
+                }
 
+                if (companyOnly || personOnly) {
                     if (companyOnly) {
                         if (!person.isCompany) {
                             return getRedirectComponent('/')
