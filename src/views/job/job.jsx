@@ -5,7 +5,8 @@ import React, { Component } from 'react'
 import Nav from '../../components/nav/nav'
 import { firebaseDb, COLLECTIONS } from '../../config/firebase'
 import { HIRING_TYPES, WORK_PLACE, DISABILITY } from '../../config/enums'
-import { getWithId } from '../../utils/FirebaseUtils';
+import { getDocWithId } from '../../utils/FirebaseUtils'
+import { unapplyToJob, applyToJob } from '../../utils/JobApplication'
 
 class Job extends Component {
     constructor(props) {
@@ -33,7 +34,7 @@ class Job extends Component {
                                 .get()
                                 .then(doc => {
                                     if (doc.exists) {
-                                        const person = getWithId(doc)
+                                        const person = getDocWithId(doc)
                                         this.setState({ people: [...this.state.people, person] })
                                     }
                                 })
@@ -45,6 +46,22 @@ class Job extends Component {
         }
     }
 
+    applyOrUnapply = () => {
+        const { job: { id: jobId } } = this.state
+        const { setLoading, person, user: { uid: personId } } = this.props
+
+        const applied = (person.jobs || {})[jobId]
+        setLoading(true)
+
+        if (applied) {
+            return unapplyToJob(jobId, personId)
+                .finally(() => setLoading())
+        }
+
+        return applyToJob(jobId, personId)
+            .finally(() => setLoading())
+    }
+
     render() {
         const { person } = this.props
         const { job, people } = this.state
@@ -53,7 +70,8 @@ class Job extends Component {
             return null
         }
 
-        const { sector, role, hiringType, place, disability, description, assignments, requirements, additional } = job
+        const { id, sector, role, hiringType, place, disability, description, assignments, requirements, additional } = job
+        const applied = (person.jobs || {})[id]
 
         return (
             <React.Fragment>
@@ -84,8 +102,10 @@ class Job extends Component {
 
                     {
                         !person.isCompany &&
-                        <div className="text-right mb-3">
-                            <button type='submit' className="btn btn-primary">Candidatar-se</button>
+                        <div className='text-right mb-3'>
+                            <button onClick={this.applyOrUnapply} className={`btn ${applied ? 'btn-danger' : 'btn-primary'}`}>
+                                {applied ? 'Cancelar Inscrição' : 'Candidatar'}
+                            </button>
                         </div>
                     }
 

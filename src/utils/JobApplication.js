@@ -18,8 +18,11 @@ export const applyToJob = (jobId, personId) => {
             }
         }, { merge: true })
 
-    Promise.all([addInPerson, addInJob])
-        .then(() => toast.success('Candidatura realizada com sucesso!'))
+    return Promise.all([addInPerson, addInJob])
+        .then(() => {
+            toast.success('Candidatura realizada com sucesso!')
+            return Promise.resolve()
+        })
 }
 
 export const unapplyToJob = (jobId, personId) => {
@@ -57,6 +60,9 @@ export const unapplyToJob = (jobId, personId) => {
             return Promise.resolve()
         })
 
-    Promise.all([removeFromPerson, removeFromJob])
-        .then(() => toast.success('Candidatura removida com sucesso!'))
+    return Promise.all([removeFromPerson, removeFromJob])
+        .then(() => {
+            toast.success('Candidatura removida com sucesso!')
+            return Promise.resolve()
+        })
 }

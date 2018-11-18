@@ -7,9 +7,8 @@ import Nav from '../../components/nav/nav'
 import Select, { enumToOptions } from '../../components/select/select'
 import { Form } from '../../utils/Form'
 import { firebaseDb, COLLECTIONS } from '../../config/firebase'
-import { HIRING_TYPES } from '../../config/enums'
-import { WORK_PLACE } from '../../config/enums'
-import { OCUPPATION } from '../../config/enums'
+import { HIRING_TYPES, WORK_PLACE, OCUPPATION } from '../../config/enums'
+import { getDocsWithId } from '../../utils/FirebaseUtils'
 
 class Jobs extends Component {
     constructor(props) {
@@ -19,34 +18,47 @@ class Jobs extends Component {
             jobs: []
         }
 
-        this.getJobs();
+        this.jobsListener = null
+        this.getJobs()
     }
 
     getJobs = () => {
-        
-        console.log(this.props.values.jobArea)
+        const { setLoading, values: { hiringType, place, sector } } = this.props
+
+        let loading = true
+        setLoading(true)
 
         let fire = firebaseDb.collection(COLLECTIONS.JOBS)
 
-        if (this.props.values.jobType){
-            fire = fire.where('hiringType','==',this.props.values.jobType)
+        if (hiringType) {
+            fire = fire.where('hiringType', '==', hiringType)
         }
-        if (this.props.values.jobLocation){
-            fire = fire.where('place','==',this.props.values.jobLocation)
+        if (place) {
+            fire = fire.where('place', '==', place)
         }
-        if (this.props.values.jobArea){
-            fire = fire.where('sector','==',this.props.values.jobArea)
+        if (sector) {
+            fire = fire.where('sector', '==', sector)
         }
-            fire.get()
-            .then(data => {
-                //Sconsole.log(data)
-                this.setState({ jobs: data.docs.map(job => {
-                    let job2 = job.data()
-                    job2.id = job.id
-                    return job2
-                }) 
-            })
+
+        if (this.jobsListener) {
+            this.jobsListener()
+        }
+
+        this.jobsListener = fire.onSnapshot(data => {
+            if (loading) {
+                loading = false
+                setLoading()
+            }
+
+            this.setState({ jobs: getDocsWithId(data) })
         })
+    }
+
+    renderJob = (job) => {
+        const { person } = this.props
+        const jobs = person.jobs || {}
+
+        return <Opportunity key={job.id} {...job} applied={jobs[job.id]} />
     }
 
     render() {
@@ -63,44 +75,38 @@ class Jobs extends Component {
                     </div>
 
                     <div className='filters d-flex'>
-                        {/* O segundo parâmetro ('Tipo de vaga') é opcional */}
                         <Select
                             title='Escolha um tipo de vaga'
-                            {...fields.jobType}
+                            {...fields.hiringType}
                             options={enumToOptions(HIRING_TYPES, 'Tipo de Vaga')}
                         />
 
                         <Select
                             title='Escolha um local de trabalho'
-                            {...fields.jobLocation}
+                            {...fields.place}
                             options={enumToOptions(WORK_PLACE, 'Local de Trabalho')}
                         />
 
                         <Select
                             title='Escolha uma área'
-                            {...fields.jobArea}
+                            {...fields.sector}
                             options={enumToOptions(OCUPPATION, 'Área de Atuação')}
                         />
                     </div>
-                        <div onClick={this.getJobs} className="text-right mb-3">
-                            <button type='submit' className="btn btn-primary">Pesquisar</button>
-                        </div>
+
+                    <div onClick={this.getJobs} className='text-right mb-3'>
+                        <button type='submit' className='btn btn-primary'>Pesquisar</button>
+                    </div>
 
                     <div className='d-flex flex-wrap'>
-                        {this.state.jobs.map(opportunity => {
-                            return <Opportunity key={opportunity.id} {...opportunity} />
-                        })}
-                    </div>   
+                        {jobs.map(this.renderJob)}
+                    </div>
                 </div>
             </React.Fragment>
         )
     }
 }
 
-const fields = [
-    'jobType',
-    'jobLocation',
-    'jobArea'
-]
+const fields = ['hiringType', 'place', 'sector']
 
 export default Form(Jobs, fields)

@@ -34,7 +34,6 @@ class NavUser extends Component {
 
                 <div className='group'>
                     <Link to='/curriculo' className='btn btn-link' role='button'>
-                        <FontAwesomeIcon icon={faEnvelope} className='mr-2' />
                         {person.name}
                     </Link>
 
