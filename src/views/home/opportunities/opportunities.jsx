@@ -1,47 +1,30 @@
 import React, { Component } from 'react'
 import './opportunities.scss'
 import Opportunity from '../../../components/opportunity/opportunity'
+import { firebaseDb, COLLECTIONS } from '../../../config/firebase';
+import { faDirections } from '@fortawesome/free-solid-svg-icons';
 
 class Opportunities extends Component {
-    state = {
-        opportunities: [
-            {
-                image: 'https://via.placeholder.com/100x220',
-                department: 'Vendas',
-                role: 'Executivo Vendas',
-                type: 'Efetivo',
-                location: 'Caxias do Sul',
-                isPerson: false,
-                id: 1
-            },
-            {
-                image: 'https://via.placeholder.com/200x220',
-                department: 'Vendas',
-                role: 'Executivo Vendas',
-                type: 'Efetivo',
-                location: 'Caxias do Sul',
-                isPerson: false,
-                id: 2
-            },
-            {
-                image: 'https://via.placeholder.com/100x180',
-                department: 'Vendas',
-                role: 'Executivo Vendas',
-                type: 'Efetivo',
-                location: 'Caxias do Sul',
-                isPerson: true,
-                id: 3
-            },
-            {
-                image: 'https://via.placeholder.com/220x190',
-                department: 'Vendas',
-                role: 'Executivo Vendas',
-                type: 'Efetivo',
-                location: 'Caxias do Sul',
-                isPerson: false,
-                id: 4
-            }
-        ]
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            opportunities: []
+        }
+
+        firebaseDb.collection(COLLECTIONS.JOBS)
+            .orderBy("creationDate").limit(4)
+            .get()
+            .then(data => {
+                //Sconsole.log(data)
+                this.setState({
+                    opportunities: data.docs.map(job => {
+                        let job2 = job.data()
+                        job2.id = job.id
+                        return job2
+                    })
+                })
+            })
     }
 
     render() {
