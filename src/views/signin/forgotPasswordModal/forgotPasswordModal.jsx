@@ -35,17 +35,17 @@ class ForgotPasswordModal extends Component {
         const { closeModal, fields } = this.props
 
         return (
-            <div className="modal" tabIndex="-1" role="dialog" >
-                <div className="modal-dialog modal-dialog-centered" role="document">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title">Esqueceu a senha</h5>
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={closeModal}>
-                                <span aria-hidden="true">&times;</span>
+            <div className='modal' tabIndex='-1' role='dialog' >
+                <div className='modal-dialog modal-dialog-centered' role='document'>
+                    <div className='modal-content'>
+                        <div className='modal-header'>
+                            <h5 className='modal-title'>Esqueceu a senha</h5>
+                            <button type='button' className='close' data-dismiss='modal' aria-label='Close' onClick={closeModal}>
+                                <span aria-hidden='true'>&times;</span>
                             </button>
                         </div>
                         <form className={`needs-validation mw-100 text-left${formWasValidated ? ' was-validated' : ''}`} onSubmit={this.onSubmit} noValidate>
-                            <div className="modal-body">
+                            <div className='modal-body'>
                                 <Input
                                     type='email'
                                     label='E-mail'
@@ -56,8 +56,8 @@ class ForgotPasswordModal extends Component {
                                     <small>Insira o e-mail usado no cadastro que lhe enviaremos um link para resetar sua senha</small>
                                 </Input>
                             </div>
-                            <div className="modal-footer">
-                                <button className="btn btn-primary">Enviar e-mail</button>
+                            <div className='modal-footer'>
+                                <button className='btn btn-primary'>Enviar e-mail</button>
                             </div>
                         </form>
                     </div>

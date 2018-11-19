@@ -65,19 +65,19 @@ class JobEdit extends Component {
                 <Nav />
                 <div className='page-jobEdit p-3 pt-4'>
                     <form onSubmit={this.onSubmit}>
-                        <div className="text-right mb-3">
-                            <button type='submit' className="btn btn-primary">Salvar</button>
+                        <div className='text-right mb-3'>
+                            <button type='submit' className='btn btn-primary'>Salvar</button>
                         </div>
 
-                        <div className="border p-3 mb-3">
-                            <div className="row">
-                                <div className="col-sm-12">
+                        <div className='border p-3 mb-3'>
+                            <div className='row'>
+                                <div className='col-sm-12'>
                                     <Input
                                         label='Vaga'
                                         {...fields.role}
                                     />
                                 </div>
-                                <div className="col-md-6 col-sm-12">
+                                <div className='col-md-6 col-sm-12'>
                                     <Select
                                         title='Escolha uma Área de Atuação'
                                         label='Área de Atuação'
@@ -85,7 +85,7 @@ class JobEdit extends Component {
                                         options={enumToOptions(OCUPPATION, 'Selecione...')}
                                     />
                                 </div>
-                                <div className="col-md-6 col-sm-12">
+                                <div className='col-md-6 col-sm-12'>
                                     <Select
                                         title='Escolha um tipo de vaga'
                                         label='Tipo de Vaga'
@@ -93,7 +93,7 @@ class JobEdit extends Component {
                                         options={enumToOptions(HIRING_TYPES, 'Selecione...')}
                                     />
                                 </div>
-                                <div className="col-md-6 col-sm-12">
+                                <div className='col-md-6 col-sm-12'>
                                     <Select
                                         title='Escolha uma cidade'
                                         {...fields.place}
@@ -101,7 +101,7 @@ class JobEdit extends Component {
                                         options={enumToOptions(WORK_PLACE, 'Selecione...')}
                                     />
                                 </div>
-                                <div className="col-md-6 col-sm-12">
+                                <div className='col-md-6 col-sm-12'>
                                     <Select
                                         title='Escolha uma deficiência'
                                         {...fields.disability}
@@ -112,9 +112,9 @@ class JobEdit extends Component {
                             </div>
                         </div>
 
-                        <div className="border p-3 mb-3">
-                            <div className="row">
-                                <div className="col-sm-12">
+                        <div className='border p-3 mb-3'>
+                            <div className='row'>
+                                <div className='col-sm-12'>
                                     <Textarea
                                         label='Descrição da Vaga'
                                         {...fields.description}
@@ -123,9 +123,9 @@ class JobEdit extends Component {
                             </div>
                         </div>
 
-                        <div className="border p-3 mb-3">
-                            <div className="row">
-                                <div className="col-sm-12">
+                        <div className='border p-3 mb-3'>
+                            <div className='row'>
+                                <div className='col-sm-12'>
                                     <Textarea
                                         label='Responsabilidades a Atribuições'
                                         {...fields.assignments}
@@ -134,9 +134,9 @@ class JobEdit extends Component {
                             </div>
                         </div>
 
-                        <div className="border p-3 mb-3">
-                            <div className="row">
-                                <div className="col-sm-12">
+                        <div className='border p-3 mb-3'>
+                            <div className='row'>
+                                <div className='col-sm-12'>
                                     <Textarea
                                         label='Requisitos e Qualificações'
                                         {...fields.requirements}
@@ -145,9 +145,9 @@ class JobEdit extends Component {
                             </div>
                         </div>
 
-                        <div className="border p-3 mb-3">
-                            <div className="row">
-                                <div className="col-sm-12">
+                        <div className='border p-3 mb-3'>
+                            <div className='row'>
+                                <div className='col-sm-12'>
                                     <Textarea
                                         label='Informações Adicionais'
                                         {...fields.additional}
@@ -156,8 +156,8 @@ class JobEdit extends Component {
                             </div>
                         </div>
 
-                        <div className="text-right mb-3">
-                            <button type='submit' className="btn btn-primary">Salvar</button>
+                        <div className='text-right mb-3'>
+                            <button type='submit' className='btn btn-primary'>Salvar</button>
                         </div>
                     </form>
                 </div>

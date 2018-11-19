@@ -13,7 +13,7 @@ class Textarea extends Component {
         } = this.props
 
         return (
-            <div className="form-group">
+            <div className='form-group'>
                 <label htmlFor={id}>{label}</label>
                 <textarea
                     id={id}

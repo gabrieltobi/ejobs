@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebookF, faLinkedinIn } from '@fortawesome/free-brands-svg-icons'
-import { isValid as isValidCpf } from "@fnando/cpf"
-import { isValid as isValidCnpj } from "@fnando/cnpj"
+import { isValid as isValidCpf } from '@fnando/cpf'
+import { isValid as isValidCnpj } from '@fnando/cnpj'
 import firebase from 'firebase'
 import { toast } from 'react-toastify'
 

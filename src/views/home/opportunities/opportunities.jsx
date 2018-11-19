@@ -13,7 +13,7 @@ class Opportunities extends Component {
         }
 
         firebaseDb.collection(COLLECTIONS.JOBS)
-            .orderBy("creationDate").limit(4)
+            .orderBy('creationDate').limit(4)
             .get()
             .then(data => {
                 //Sconsole.log(data)

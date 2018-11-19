@@ -34,7 +34,7 @@ class Input extends Component {
                 <div className='input-group'>
                     {
                         icon &&
-                        <div className="input-group-prepend">
+                        <div className='input-group-prepend'>
                             <span className='input-group-text'>
                                 <FontAwesomeIcon icon={icon} />
                             </span>
