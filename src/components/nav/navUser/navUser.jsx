@@ -33,7 +33,7 @@ class NavUser extends Component {
                 </div>
 
                 <div className='group'>
-                    <Link to='/curriculo' className='btn btn-link' role='button'>
+                    <Link to={`/curriculo/${person.id}`} className='btn btn-link' role='button'>
                         {person.name}
                     </Link>
 

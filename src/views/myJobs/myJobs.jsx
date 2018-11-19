@@ -21,7 +21,9 @@ class MyJobs extends Component {
         this.state = {
             myJobs: []
         }
+    }
 
+    componentDidMount() {
         this.getMyJobs()
     }
 

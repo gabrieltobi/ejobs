@@ -1,6 +1,7 @@
 import './job.scss'
 
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 import Nav from '../../components/nav/nav'
 import { firebaseDb, COLLECTIONS } from '../../config/firebase'
@@ -25,7 +26,7 @@ class Job extends Component {
                 .get()
                 .then(doc => {
                     if (doc.exists) {
-                        const job = doc.data()
+                        const job = getDocWithId(doc)
                         this.setState({ job })
 
                         Object.keys(job.people || {}).map(personId => {
@@ -115,7 +116,11 @@ class Job extends Component {
                             <h5 className='mt-4'>Candidatos</h5>
                             <ul>
                                 {people.map(person => (
-                                    <li key={person.id}>{person.name}</li>
+                                    <li key={person.id}>
+                                        <Link to={`/curriculo/${person.id}`}>
+                                            {person.name}
+                                        </Link>
+                                    </li>
                                 ))}
                             </ul>
                         </React.Fragment>

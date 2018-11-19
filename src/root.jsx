@@ -25,14 +25,14 @@ class Root extends Component {
                 <AppProvider>
                     <Route exact path='/' component={connectToApp(Home)} />
 
-                    <Route path="/acesso" component={connectToApp(SignIn)} />
-                    <Route path="/cadastro/:mode(candidato|empresa)" component={connectToApp(SignUp)} />
+                    <Route path='/acesso' component={connectToApp(SignIn)} />
+                    <Route path='/cadastro/:mode(candidato|empresa)' component={connectToApp(SignUp)} />
 
-                    <PrivateRoute path="/jobs" component={Jobs} personOnly />
-                    <PrivateRoute path="/myJobs" component={MyJobs} />
-                    <PrivateRoute path="/curriculo" component={Resume} personOnly />
-                    <PrivateRoute path="/jobEdit/:id?" component={JobEdit} companyOnly />
-                    <PrivateRoute path="/job/:id" component={Job} />
+                    <PrivateRoute path='/jobs' component={Jobs} personOnly />
+                    <PrivateRoute path='/myJobs' component={MyJobs} />
+                    <PrivateRoute path='/curriculo/:id' component={Resume} />
+                    <PrivateRoute path='/jobEdit/:id?' component={JobEdit} companyOnly />
+                    <PrivateRoute path='/job/:id' component={Job} />
                 </AppProvider>
             </Router>
         )
