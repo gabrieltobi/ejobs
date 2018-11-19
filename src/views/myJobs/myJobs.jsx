@@ -12,7 +12,7 @@ import { HIRING_TYPES } from '../../config/enums'
 import { WORK_PLACE } from '../../config/enums'
 import { OCUPPATION } from '../../config/enums'
 import Select, { enumToOptions } from '../../components/select/select'
-import { getDocWithId } from '../../utils/FirebaseUtils';
+import { getDocWithId, getDocsWithId } from '../../utils/FirebaseUtils';
 
 class MyJobs extends Component {
     constructor(props) {
@@ -26,6 +26,7 @@ class MyJobs extends Component {
     }
 
     setFilters = (fire) => {
+        const { fields } = this.props
         const { values: { hiringType, place, sector } } = this.props
 
         if (hiringType) {
@@ -37,13 +38,15 @@ class MyJobs extends Component {
         if (sector) {
             fire = fire.where('sector', '==', sector)
         }
+        return fire;
     }
 
     getMyJobs = () => {
         const { person } = this.props
+        const { fields } = this.props
 
         let fire = firebaseDb.collection(COLLECTIONS.JOBS)
-        this.setFilters(fire)
+        fire = this.setFilters(fire)
         this.setState({ myJobs: [] })
 
         if (!person.isCompany) {
@@ -68,6 +71,7 @@ class MyJobs extends Component {
 
     render() {
         const { person } = this.props
+        const { fields } = this.props
 
         return (
             <React.Fragment>
