@@ -37,7 +37,9 @@ class Opportunity extends Component {
             place,
             applied,
             date,
-            id
+            id,
+            user,
+            person
         } = this.props
 
         return (
@@ -64,9 +66,12 @@ class Opportunity extends Component {
                             {format(date, 'DD/MM/YYYY')}
                         </div>
                     }
-                    <button onClick={this.applyOrUnapply} className={`btn mt-3 ${applied ? 'btn-danger' : 'btn-primary'}`}>
-                        {applied ? 'Cancelar Inscrição' : 'Candidatar'}
-                    </button>
+                    {
+                        user && !person.isCompany &&
+                        <button onClick={this.applyOrUnapply} className={`btn mt-3 ${applied ? 'btn-danger' : 'btn-primary'}`}>
+                            {applied ? 'Cancelar Inscrição' : 'Candidatar'}
+                        </button>
+                    }
                 </div>
             </Link>
         )
