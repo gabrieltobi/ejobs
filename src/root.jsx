@@ -17,6 +17,7 @@ import MyJobs from './views/myJobs/myJobs'
 import Resume from './views/resume/resume'
 import JobEdit from './views/jobEdit/jobEdit'
 import Job from './views/job/job'
+import Profile from './views/profile/profile'
 
 class Root extends Component {
     render() {
@@ -33,6 +34,7 @@ class Root extends Component {
                     <PrivateRoute path='/curriculo/:id' component={Resume} />
                     <PrivateRoute path='/jobEdit/:id?' component={JobEdit} companyOnly />
                     <PrivateRoute path='/job/:id' component={Job} />
+                    <PrivateRoute path='/perfil' component={Profile} companyOnly />
                 </AppProvider>
             </Router>
         )

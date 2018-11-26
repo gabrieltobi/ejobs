@@ -3,6 +3,7 @@ import { ToastContainer } from 'react-toastify'
 import firebase from 'firebase'
 import Loading from '../../components/loading/loading'
 import { COLLECTIONS, firebaseDb } from '../../config/firebase'
+import { getDocWithId } from '../../utils/FirebaseUtils'
 
 const Context = React.createContext()
 
@@ -30,12 +31,9 @@ export class AppProvider extends Component {
                     .doc(`${COLLECTIONS.PEOPLE}/${user.uid}`)
                     .onSnapshot(doc => {
                         let person = {}
-
+console.warn('PESSOA')
                         if (doc.exists) {
-                            person = {
-                                ...doc.data(),
-                                id: user.uid
-                            }
+                            person = getDocWithId(doc)
                         }
 
                         this.setState({ person: person, personLoaded: true })
