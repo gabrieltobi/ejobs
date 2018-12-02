@@ -81,7 +81,7 @@ export function Form(WrappedComponent, fields, defaultValues = {}) {
     }
 
     setValues = (values) => {
-      Object.keys(values).forEach(valueKey => {
+      Object.keys(values || {}).forEach(valueKey => {
         this.setValueToField(valueKey, values[valueKey])
       })
     }

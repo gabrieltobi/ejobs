@@ -1,5 +1,7 @@
 .pcd-nav {
     .user-img {
-        max-width: 40px;
+        $img-size: 40px;
+        width: $img-size;
+        height: $img-size;
     }
 }

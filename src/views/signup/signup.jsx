@@ -169,7 +169,7 @@ class SignUp extends Component {
             .doc(uid)
             .set(userData, { merge: true })
             .then(() => {
-                history.push(this.isApplicantMode() ? '/curriculo' : '/')
+                history.push(this.isApplicantMode() ? '/curriculo' : '/perfil')
                 return Promise.resolve()
             })
     }

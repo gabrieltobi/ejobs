@@ -4,137 +4,125 @@ import React, { Component } from 'react'
 
 import { Form } from '../../utils/Form'
 import Input from '../../components/input/input'
-import Select from '../../components/select/select'
-import firebase from 'firebase'
+import Textarea from '../../components/textarea/textarea'
 import { firebaseDb, COLLECTIONS } from '../../config/firebase'
 import { toast } from 'react-toastify'
 import Nav from '../../components/nav/nav'
 
 import userNoPhoto from '../../images/user-no-photo.jpg'
+import { getDocWithId } from '../../utils/FirebaseUtils';
 
 class Profile extends Component {
-    onSubmit = (event) => {
-        event.preventDefault()
+    state = {
+        selectedFile: null,
+        selectedFileBase64: null
+    }
 
-        const { values, setLoading } = this.props
+    fileInputRef = React.createRef()
+
+    componentDidMount() {
+        const { setValues, setLoading, person: { id } } = this.props
 
         setLoading(true)
         firebaseDb.collection(COLLECTIONS.PEOPLE)
-            .doc(firebase.auth().currentUser.uid)
-            .set(values, { merge: true })
-            .then(() => toast.success('Currículo Atualizado'))
+            .doc(id)
+            .get()
+            .then(doc => setValues(getDocWithId(doc)))
+            .catch(error => toast.error(`Erro ao carregar perfil: ${error}`))
             .finally(() => setLoading())
     }
 
+    onSubmit = (event) => {
+        event.preventDefault()
 
-    
+        const { values, setLoading, person: { id } } = this.props
+
+        setLoading(true)
+        firebaseDb.collection(COLLECTIONS.PEOPLE)
+            .doc(id)
+            .set(values, { merge: true })
+            .then(() => toast.success('Perfil Atualizado'))
+            .catch(error => toast.error(`Não foi possível salvar o perfil: ${error}`))
+            .finally(() => setLoading())
+    }
+
+    fileInputChange = (event) => {
+        const { setLoading, setValueToField } = this.props
+
+        setLoading(true)
+        const file = event.target.files[0]
+
+        const reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = () => {
+            setValueToField('photo', reader.result)
+            setLoading()
+        }
+    }
+
     render() {
-        const { fields, values, person } = this.props
-        console.log(person)
+        const { fields } = this.props
+
         return (
             <React.Fragment>
                 <Nav />
 
-                <div className="page-profile">
-                    <div className="p-3">
-                        <div className="card">
-                            <div className="bg-secondary d-flex align-items-center justify-content-center" style={{ height: 200 }}>
-                                <img
-                                    className='user-img rounded-circle'
-                                    src={person.photo || userNoPhoto}
-                                    alt='Sua Foto'
-                                />
-                            </div>
-                            <div className="card-body">
-                                <Input
-                                    label='Razão Social *'
-                                    {...fields.companyName}
-                                />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className='p-3 pt-4'>
-                        <div className='mb-4'>
-                            <h3>Currículo</h3>
-                        </div>
-
-                        <form onSubmit={this.onSubmit}>
-                            <div className='text-right mb-3'>
-                                <button type='submit' className='btn btn-primary'>Salvar</button>
-                            </div>
-
-                            <div className='border p-3 mb-3'>
-                                <h4 className='mb-3'>Informações Pessoais</h4>
-
-                                <div className='row'>
-                                    <div className='col-sm-12'>
-                                        <Input
-                                            label='Digite seu endereço completo *'
-                                            title='Exemplo: Av. Santa Monica, 56, Rio de Janeiro, Brasil'
-                                            disabled={person}
-                                            {...fields.address}
-                                        />
-                                    </div>
-                                    <div className='col-md-6 col-sm-12'>
-                                        <Input
-                                            label='Data de nascimento *'
-                                            mask='99/99/9999'
-                                            disabled={person}
-                                            {...fields.birthday}
-                                        />
-                                    </div>
-                                    <div className='col-md-6 col-sm-12'>
-                                        <Select
-                                            label='Gênero *'
-                                            disabled={person}
-                                            {...fields.gender}
-                                            options={(
-                                                <React.Fragment>
-                                                    <option value='M'>Masculino</option>
-                                                    <option value='F'>Feminino</option>
-                                                    <option value='O'>Outro</option>
-                                                    <option value='NI'>Prefiro não informar</option>
-                                                </React.Fragment>
-                                            )}
-                                        />
-                                    </div>
-                                    <div className='col-sm-12'>
-                                        <Select
-                                            label='Tipo de deficiência *'
-                                            disabled={person}
-                                            {...fields.disability}
-                                            options={(
-                                                <React.Fragment>
-                                                    <option value='D'>Deficiência Física</option>
-                                                </React.Fragment>
-                                            )}
-                                        />
-                                    </div>
-                                    <div className='col-md-6 col-sm-12'>
-                                        <Input
-                                            label='Celular *'
-                                            mask='(99) 99999-9999'
-                                            disabled={person}
-                                            {...fields.cellphone}
-                                        />
-                                    </div>
-                                    <div className='col-md-6 col-sm-12'>
-                                        <Input
-                                            label='Telefone'
-                                            mask='(99) 99999-9999'
-                                            disabled={person}
-                                            {...fields.phone}
-                                        />
-                                    </div>
+                <div className='page-profile'>
+                    <form onSubmit={this.onSubmit}>
+                        <div className='p-3 position-sticky bg-light'>
+                            <div className="row">
+                                <div className='col'>
+                                    <h3 className='m-0'>Perfil Empresarial</h3>
+                                </div>
+                                <div className='col text-right'>
+                                    <button type='submit' className='btn btn-primary px-5'>Salvar</button>
                                 </div>
                             </div>
+                        </div>
 
-                            <div className='text-right mb-3'>
-                                <button type='submit' className='btn btn-primary'>Salvar</button>
+                        <div className='p-3'>
+                            <div className='card  mb-3'>
+                                <div className='bg-secondary d-flex align-items-center justify-content-center' style={{ height: 200 }}>
+                                    <a
+                                        role='button'
+                                        className='btn rounded-circle'
+                                        onClick={() => this.fileInputRef.current.click()}
+                                    >
+                                        <img
+                                            className='user-img rounded-circle'
+                                            src={fields.photo.value || userNoPhoto}
+                                            alt='Imagem da Empresa'
+                                        />
+                                        <input
+                                            ref={this.fileInputRef}
+                                            className='d-none'
+                                            type='file'
+                                            accept='image/*'
+                                            onChange={this.fileInputChange}
+                                        />
+                                    </a>
+                                </div>
+                                <div className='card-body'>
+                                    <Input
+                                        label='Razão Social *'
+                                        required
+                                        {...fields.companyName}
+                                    />
+
+                                    <Input
+                                        label='Nome Fantasia'
+                                        {...fields.fantasyName}
+                                    />
+
+                                    <Textarea
+                                        label='Sobre a Empresa'
+                                        style={{ minHeight: 180 }}
+                                        {...fields.aboutUs}
+                                    />
+                                </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </React.Fragment >
         )
@@ -142,14 +130,7 @@ class Profile extends Component {
 }
 
 const fields = [
-    'name', 'lastname', 'email', 'address', 'birthday', 'gender', 'disability',
-    'cellphone', 'phone', 'name', 'lastname', 'email', 'education', 'degree',
-    'status', 'institution', 'class', 'startDate', 'endDate', 'experience',
-    'companyName', 'position', 'startDateJob', 'endDateJob', 'currentJob',
-    'descriptionJob', 'interestAreas', 'achievements', 'achievement', 'title',
-    'descriptionAchievement', 'language', 'level', 'facebook', 'linkedin', 'site'
+    'photo', 'companyName', 'fantasyName', 'aboutUs'
 ]
 
-export default Form(Profile, fields, {
-    interestAreas: []
-})
+export default Form(Profile, fields)

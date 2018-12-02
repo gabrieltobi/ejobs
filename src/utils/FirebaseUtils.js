@@ -1,7 +1,11 @@
 export function getDocWithId(doc) {
-    const docWithId = doc.data()
-    docWithId.id = doc.id
-    return docWithId
+    if (doc.exists) {
+        const docWithId = doc.data()
+        docWithId.id = doc.id
+        return docWithId
+    }
+
+    return null
 }
 
 export function getDocsWithId(data) {
