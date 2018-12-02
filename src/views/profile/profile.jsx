@@ -10,7 +10,8 @@ import { toast } from 'react-toastify'
 import Nav from '../../components/nav/nav'
 
 import userNoPhoto from '../../images/user-no-photo.jpg'
-import { getDocWithId } from '../../utils/FirebaseUtils';
+import { getDocWithId } from '../../utils/FirebaseUtils'
+import { getNumbersOnly } from '../../utils/Toolbox'
 
 class Profile extends Component {
     state = {
@@ -37,10 +38,15 @@ class Profile extends Component {
 
         const { values, setLoading, person: { id } } = this.props
 
+        const data = {
+            ...values,
+            document: getNumbersOnly(values.document)
+        }
+
         setLoading(true)
         firebaseDb.collection(COLLECTIONS.PEOPLE)
             .doc(id)
-            .set(values, { merge: true })
+            .set(data, { merge: true })
             .then(() => toast.success('Perfil Atualizado'))
             .catch(error => toast.error(`Não foi possível salvar o perfil: ${error}`))
             .finally(() => setLoading())
@@ -69,8 +75,8 @@ class Profile extends Component {
 
                 <div className='page-profile'>
                     <form onSubmit={this.onSubmit}>
-                        <div className='p-3 position-sticky bg-light'>
-                            <div className="row">
+                        <div className='p-3 position-sticky bg-white'>
+                            <div className='row'>
                                 <div className='col'>
                                     <h3 className='m-0'>Perfil Empresarial</h3>
                                 </div>
@@ -81,7 +87,7 @@ class Profile extends Component {
                         </div>
 
                         <div className='p-3'>
-                            <div className='card  mb-3'>
+                            <div className='card mb-3'>
                                 <div className='bg-secondary d-flex align-items-center justify-content-center' style={{ height: 200 }}>
                                     <a
                                         role='button'
@@ -102,7 +108,7 @@ class Profile extends Component {
                                         />
                                     </a>
                                 </div>
-                                <div className='card-body'>
+                                <div className='card-body mb-3'>
                                     <Input
                                         label='Razão Social *'
                                         required
@@ -114,12 +120,26 @@ class Profile extends Component {
                                         {...fields.fantasyName}
                                     />
 
+                                    <Input
+                                        label='CNPJ'
+                                        mask='99.999.999/9999-99'
+                                        {...fields.document}
+                                    />
+
                                     <Textarea
                                         label='Sobre a Empresa'
                                         style={{ minHeight: 180 }}
                                         {...fields.aboutUs}
                                     />
                                 </div>
+                            </div>
+
+                            <div className='border rounded p-3'>
+                                <h4>Contato</h4>
+
+                                <Input label='Nome' {...fields.name} />
+                                <Input label='Sobrenome' {...fields.surname} />
+                                <Input label='E-mail' {...fields.email} disabled />
                             </div>
                         </div>
                     </form>
@@ -130,7 +150,8 @@ class Profile extends Component {
 }
 
 const fields = [
-    'photo', 'companyName', 'fantasyName', 'aboutUs'
+    'photo', 'companyName', 'fantasyName', 'document', 'aboutUs',
+    'name', 'surname', 'email'
 ]
 
 export default Form(Profile, fields)

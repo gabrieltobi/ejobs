@@ -4,10 +4,4 @@
         width: $img-size;
         height: $img-size;
     }
-
-    .form-group {
-        &:last-of-type {
-            margin-bottom: 0;
-        }
-    }
 }
