@@ -77,54 +77,57 @@ class Job extends Component {
         return (
             <React.Fragment>
                 <Nav />
-                <div className='page-job p-3 pt-4'>
-                    <div className='mb-4'>
-                        <h3>{sector}</h3>
-                        <h5>{role}</h5>
-                    </div>
 
-                    <ul>
-                        <li><b>Tipo:</b> {HIRING_TYPES[hiringType].name}</li>
-                        <li><b>Cidade:</b> {WORK_PLACE[place].name}</li>
-                        <li><b>Tipo de Deficiência:</b> {DISABILITY[disability].name}</li>
-                    </ul>
-
-                    <h6>Descrição da Vaga</h6>
-                    <p>{description}</p>
-
-                    <h6>Responsabilidades a Atribuições</h6>
-                    <p>{assignments}</p>
-
-                    <h6>Requisitos e Qualificações</h6>
-                    <p>{requirements}</p>
-
-                    <h6>Informações Adicionais</h6>
-                    <p>{additional}</p>
-
-                    {
-                        !person.isCompany &&
-                        <div className='text-right mb-3'>
-                            <button onClick={this.applyOrUnapply} className={`btn ${applied ? 'btn-danger' : 'btn-primary'}`}>
-                                {applied ? 'Cancelar Inscrição' : 'Candidatar'}
-                            </button>
+                <div className='page-job'>
+                    <div className="p-3">
+                        <div className='mb-4'>
+                            <h3>{sector}</h3>
+                            <h5>{role}</h5>
                         </div>
-                    }
 
-                    {
-                        person.isCompany &&
-                        <React.Fragment>
-                            <h5 className='mt-4'>Candidatos</h5>
-                            <ul>
-                                {people.map(person => (
-                                    <li key={person.id}>
-                                        <Link to={`/curriculo/${person.id}`}>
-                                            {person.name}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </React.Fragment>
-                    }
+                        <ul>
+                            <li><b>Tipo:</b> {HIRING_TYPES[hiringType].name}</li>
+                            <li><b>Cidade:</b> {WORK_PLACE[place].name}</li>
+                            <li><b>Tipo de Deficiência:</b> {DISABILITY[disability].name}</li>
+                        </ul>
+
+                        <h6>Descrição da Vaga</h6>
+                        <p>{description}</p>
+
+                        <h6>Responsabilidades a Atribuições</h6>
+                        <p>{assignments}</p>
+
+                        <h6>Requisitos e Qualificações</h6>
+                        <p>{requirements}</p>
+
+                        <h6>Informações Adicionais</h6>
+                        <p>{additional}</p>
+
+                        {
+                            !person.isCompany &&
+                            <div className='text-right mb-3'>
+                                <button onClick={this.applyOrUnapply} className={`btn ${applied ? 'btn-danger' : 'btn-primary'}`}>
+                                    {applied ? 'Cancelar Inscrição' : 'Candidatar'}
+                                </button>
+                            </div>
+                        }
+
+                        {
+                            person.isCompany &&
+                            <React.Fragment>
+                                <h5 className='mt-4'>Candidatos</h5>
+                                <ul>
+                                    {people.map(person => (
+                                        <li key={person.id}>
+                                            <Link to={`/curriculo/${person.id}`}>
+                                                {person.name}
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </React.Fragment>
+                        }
+                    </div>
                 </div>
             </React.Fragment>
         )

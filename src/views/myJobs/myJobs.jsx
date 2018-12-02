@@ -28,7 +28,6 @@ class MyJobs extends Component {
     }
 
     setFilters = (fire) => {
-        const { fields } = this.props
         const { values: { hiringType, place, sector } } = this.props
 
         if (hiringType) {
@@ -40,30 +39,51 @@ class MyJobs extends Component {
         if (sector) {
             fire = fire.where('sector', '==', sector)
         }
-        return fire;
+
+        return fire
+    }
+
+    passFilters = (doc) => {
+        const { values: { hiringType, place, sector } } = this.props
+
+        if (hiringType && (doc.hiringType !== hiringType)) {
+            return false
+        }
+        if (place && (doc.place !== place)) {
+            return false
+        }
+        if (sector && (doc.sector !== sector)) {
+            return false
+        }
+
+        return true
     }
 
     getMyJobs = () => {
         const { person } = this.props
-        const { fields } = this.props
 
-        let fire = firebaseDb.collection(COLLECTIONS.JOBS)
-        fire = this.setFilters(fire)
         this.setState({ myJobs: [] })
 
         if (!person.isCompany) {
             const jobs = person.jobs || {}
 
             Object.keys(jobs).map(job => {
-                fire.doc(job)
+                firebaseDb.collection(COLLECTIONS.JOBS)
+                    .doc(job)
                     .onSnapshot(doc => {
-                        this.setState({
-                            myJobs: [...this.state.myJobs, getDocWithId(doc)]
-                        })
+                        const jobData = getDocWithId(doc)
+
+                        if (this.passFilters(jobData)) {
+                            this.setState({
+                                myJobs: [...this.state.myJobs, jobData]
+                            })
+                        }
                     })
             })
         } else {
-            fire = fire.where('company', '==', person.id)
+            let fire = firebaseDb.collection(COLLECTIONS.JOBS)
+                .where('company', '==', person.id)
+            fire = this.setFilters(fire)
 
             fire.onSnapshot(data => {
                 this.setState({ myJobs: getDocsWithId(data) })
