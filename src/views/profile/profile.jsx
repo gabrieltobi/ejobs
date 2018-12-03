@@ -75,7 +75,7 @@ class Profile extends Component {
 
                 <div className='page-profile'>
                     <form onSubmit={this.onSubmit}>
-                        <div className='p-3 position-sticky bg-white'>
+                        <div className='p-3 position-sticky bg-white shadow-sm'>
                             <div className='row'>
                                 <div className='col'>
                                     <h3 className='m-0'>Perfil Empresarial</h3>

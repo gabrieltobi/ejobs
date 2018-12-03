@@ -31,7 +31,7 @@ export class AppProvider extends Component {
                     .doc(`${COLLECTIONS.PEOPLE}/${user.uid}`)
                     .onSnapshot(doc => {
                         let person = {}
-console.warn('PESSOA')
+
                         if (doc.exists) {
                             person = getDocWithId(doc)
                         }
@@ -40,7 +40,7 @@ console.warn('PESSOA')
                     })
                 this.unsubscribeList.push(personUnsubscriber)
             }
-        });
+        })
         this.unsubscribeList.push(authUnsubscriber)
     }
 
